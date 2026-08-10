@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vesemir-7 — Run Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#17140f;
+  --panel:#201b14;
+  --panel-2:#282217;
+  --line:#3a3225;
+  --ink:#e8dec8;
+  --muted:#8a7f68;
+  --igni:#e0762f;
+  --quen:#d9a72e;
+  --aard:#4c86c6;
+  --yrden:#8d6bc0;
+  --axii:#5fa05a;
+  --blood:#c24545;
+  --radius:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:var(--line) var(--bg)}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:14px;
+  line-height:1.5;
+  min-height:100vh;
+  background-image:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(224,118,47,0.07), transparent);
+}
+.wrap{max-width:860px;margin:0 auto;padding:2rem 1.25rem 4rem}
+
+/* ---------- header ---------- */
+header{
+  display:flex;align-items:center;gap:18px;
+  padding-bottom:1.5rem;margin-bottom:1.5rem;
+  border-bottom:1px solid var(--line);
+}
+.medallion{
+  width:64px;height:64px;flex-shrink:0;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #3a3225, #201b14 70%);
+  border:1px solid #4d4331;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  box-shadow:0 0 24px rgba(224,118,47,0.15), inset 0 1px 0 rgba(232,222,200,0.1);
+}
+h1{
+  font-family:'Cormorant',serif;
+  font-size:32px;font-weight:700;letter-spacing:0.01em;
+  line-height:1.1;
+}
+.machine-line{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--muted);
+  margin-top:5px;letter-spacing:0.04em;
+}
+.machine-line .ok{color:var(--axii)}
+.hdr-meta{margin-left:auto;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.hdr-meta strong{color:var(--ink);font-weight:500}
+
+/* ---------- stat strip ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.stat{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 14px;
+}
+.stat .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px}
+.stat .val{font-family:'Cormorant',serif;font-size:30px;font-weight:600;line-height:1}
+.stat .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.lvl-btns{display:inline-flex;gap:4px;margin-left:8px;vertical-align:middle}
+.lvl-btns button{
+  width:22px;height:22px;border-radius:6px;border:1px solid var(--line);
+  background:var(--panel-2);color:var(--ink);cursor:pointer;font-size:13px;line-height:1;
+}
+.lvl-btns button:hover{border-color:var(--igni);color:var(--igni)}
+
+/* ---------- sections ---------- */
+section{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.1rem 1.25rem;margin-bottom:1rem;
+}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.9rem}
+h2{
+  font-family:'Cormorant',serif;font-size:20px;font-weight:600;letter-spacing:0.01em;
+}
+h2 .rune{color:var(--igni);margin-right:6px}
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  background:var(--panel-2);border:1px solid var(--line);color:var(--ink);
+  border-radius:7px;padding:5px 12px;cursor:pointer;letter-spacing:0.03em;
+}
+.btn:hover{border-color:var(--igni);color:var(--igni)}
+.btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+  outline:2px solid var(--quen);outline-offset:1px;
+}
+.btn.primary{background:var(--igni);border-color:var(--igni);color:#17140f;font-weight:500}
+.btn.primary:hover{background:#ea8a48;color:#17140f}
+
+/* ---------- skills ---------- */
+.skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.skill{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:8px;
+  padding:9px 11px;display:flex;align-items:center;gap:10px;
+}
+.skill .tree-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.skill .info{flex:1;min-width:0}
+.skill .name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skill .tree{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+.pips{display:flex;gap:3px;align-items:center}
+.pip{width:8px;height:8px;border-radius:2px;background:var(--line)}
+.pip.on{background:var(--quen)}
+.skill .plus{
+  width:20px;height:20px;border-radius:5px;border:1px solid var(--line);
+  background:none;color:var(--muted);cursor:pointer;font-size:12px;flex-shrink:0;
+}
+.skill .plus:hover{color:var(--quen);border-color:var(--quen)}
+.skill-add-row{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.skill-add-row input,.skill-add-row select{
+  background:var(--panel-2);border:1px solid var(--line);color:var(--ink);
+  border-radius:7px;padding:6px 10px;font-size:13px;font-family:'Inter',sans-serif;
+}
+.skill-add-row input{flex:1;min-width:130px}
+
+/* ---------- decisions ---------- */
+.decision{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:10px 0;border-bottom:1px solid var(--line);
+}
+.decision:last-child{border-bottom:none;padding-bottom:0}
+.d-dot{width:9px;height:9px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.d-dot.good{background:var(--axii);box-shadow:0 0 8px rgba(95,160,90,0.5)}
+.d-dot.neutral{background:var(--muted)}
+.d-dot.bad{background:var(--blood);box-shadow:0 0 8px rgba(194,69,69,0.5)}
+.d-body{flex:1}
+.d-text{font-size:13.5px;line-height:1.45}
+.d-meta{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);margin-top:3px}
+.d-del{
+  background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;
+  padding:2px 6px;border-radius:5px;
+}
+.d-del:hover{color:var(--blood)}
+.d-form{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:12px}
+.d-form input[type=text],.d-form select{
+  background:var(--bg);border:1px solid var(--line);color:var(--ink);
+  border-radius:7px;padding:7px 10px;font-size:13px;width:100%;font-family:'Inter',sans-serif;
+}
+.d-form .row{display:flex;gap:8px;margin-top:8px}
+.d-form select{flex:1}
+.d-form .zone-in{width:130px !important}
+.hidden{display:none}
+
+/* ---------- zones ---------- */
+.zone{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.zone:last-child{margin-bottom:0}
+.z-name{font-size:12.5px;color:var(--muted);width:140px;flex-shrink:0}
+.z-track{flex:1;height:7px;background:var(--panel-2);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+.z-fill{height:100%;border-radius:4px;transition:width .4s ease}
+.z-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);width:38px;text-align:right}
+.z-range{flex:1;accent-color:var(--igni)}
+
+/* ---------- ciri gauge ---------- */
+.ciri-wrap{display:flex;align-items:center;gap:18px}
+.swallow{
+  width:54px;height:54px;flex-shrink:0;border-radius:50%;
+  border:1px solid var(--line);background:var(--panel-2);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+}
+.ciri-body{flex:1}
+.ciri-labels{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+.ciri-track{height:9px;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.ciri-fill{height:100%;background:linear-gradient(90deg,var(--yrden),var(--axii));transition:width .5s ease}
+.ciri-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:7px}
+
+/* ---------- orders ---------- */
+.orders{
+  font-family:'Cormorant',serif;font-size:17px;font-style:italic;line-height:1.55;
+  border-left:2px solid var(--igni);padding:4px 0 4px 16px;color:var(--ink);
+}
+.orders-edit textarea{
+  width:100%;min-height:70px;background:var(--panel-2);border:1px solid var(--line);
+  color:var(--ink);border-radius:7px;padding:10px;font-family:'Inter',sans-serif;font-size:13px;resize:vertical;
+}
+
+/* ---------- export ---------- */
+.io-box{
+  width:100%;min-height:80px;background:var(--bg);border:1px solid var(--line);
+  color:var(--muted);border-radius:7px;padding:10px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;resize:vertical;
+}
+.io-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.io-note{font-size:12px;color:var(--muted);margin-bottom:8px}
+.saved-flash{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--axii);
+  opacity:0;transition:opacity .3s;
+}
+.saved-flash.show{opacity:1}
+
+footer{
+  text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--muted);margin-top:2rem;letter-spacing:0.05em;
+}
+
+@media (max-width:640px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .hdr-meta{display:none}
+  h1{font-size:26px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="medallion">⚔️</div>
+  <div>
+    <h1>Vesemir-7</h1>
+    <div class="machine-line">RUN DOSSIER // WILD HUNT + HoS + B&W // <span class="ok">STORAGE: LOCAL ● PERSISTENT</span></div>
+  </div>
+  <div class="hdr-meta">
+    LAST ENTRY<br><strong id="last-updated">—</strong>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat">
+    <div class="lbl">Level</div>
+    <div class="val"><span id="stat-level">7</span><span class="lvl-btns"><button onclick="lvl(1)" aria-label="Level up">+</button><button onclick="lvl(-1)" aria-label="Level down">−</button></span></div>
+    <div class="sub">Geralt of Rivia</div>
+  </div>
+  <div class="stat">
+    <div class="lbl">Decisions</div>
+    <div class="val" id="stat-decisions">0</div>
+    <div class="sub">logged by V-7</div>
+  </div>
+  <div class="stat">
+    <div class="lbl">Ciri Fate</div>
+    <div class="val" style="font-size:19px;padding-top:6px">Witcher</div>
+    <div class="sub">target ending</div>
+  </div>
+  <div class="stat">
+    <div class="lbl">Difficulty</div>
+    <div class="val" style="font-size:19px;padding-top:6px">BB&B</div>
+    <div class="sub">Blood &amp; Broken Bones</div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-head">
+    <h2><span class="rune">❋</span>Build — Alchemy / Signs (Euphoria path)</h2>
+    <button class="btn" onclick="toggle('skill-form')">+ skill</button>
+  </div>
+  <div class="skills" id="skills"></div>
+  <div class="skill-add-row hidden" id="skill-form">
+    <input type="text" id="sk-name" placeholder="Skill name">
+    <select id="sk-tree">
+      <option>Combat</option><option>Signs</option><option>Alchemy</option><option>General</option><option>Mutation</option>
+    </select>
+    <select id="sk-max">
+      <option value="3">max 3</option><option value="1">max 1</option><option value="2">max 2</option><option value="5">max 5</option>
+    </select>
+    <button class="btn primary" onclick="addSkill()">Add</button>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2><span class="rune">❋</span>Decision log</h2>
+    <button class="btn" onclick="toggle('d-form')">+ log decision</button>
+  </div>
+  <div class="d-form hidden" id="d-form">
+    <input type="text" id="d-text" placeholder="What was decided...">
+    <div class="row">
+      <select id="d-outcome">
+        <option value="good">Ciri: positive</option>
+        <option value="neutral" selected>Neutral</option>
+        <option value="bad">Ciri: negative</option>
+      </select>
+      <input type="text" id="d-zone" class="zone-in" placeholder="Zone">
+      <button class="btn primary" onclick="addDecision()">Log it</button>
+    </div>
+  </div>
+  <div id="decisions"></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2><span class="rune">❋</span>Zone progress</h2>
+    <button class="btn" id="zone-btn" onclick="toggleZones()">edit</button>
+  </div>
+  <div id="zones"></div>
+</section>
+
+<section>
+  <div class="sec-head"><h2><span class="rune">❋</span>Ciri confidence</h2></div>
+  <div class="ciri-wrap">
+    <div class="swallow">🐦</div>
+    <div class="ciri-body">
+      <div class="ciri-labels"><span>Empress risk</span><span>Witcher ending</span></div>
+      <div class="ciri-track"><div class="ciri-fill" id="ciri-fill" style="width:50%"></div></div>
+      <div class="ciri-note" id="ciri-note">No Ciri-relevant decisions yet</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2><span class="rune">❋</span>Standing orders</h2>
+    <button class="btn" onclick="toggle('orders-form')">edit</button>
+  </div>
+  <div class="orders" id="orders-text"></div>
+  <div class="orders-edit hidden" id="orders-form">
+    <textarea id="orders-input"></textarea>
+    <div class="io-row"><button class="btn primary" onclick="saveOrders()">Save orders</button></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2><span class="rune">❋</span>Export / Import</h2>
+    <span class="saved-flash" id="flash">✓ saved</span>
+  </div>
+  <div class="io-note">Auto-saves to this browser. Export as backup, or to move state between machines / back into chat with Vesemir-7.</div>
+  <textarea class="io-box" id="io-box" placeholder="Exported state appears here. Paste state here and hit Import to restore."></textarea>
+  <div class="io-row">
+    <button class="btn primary" onclick="doExport()">Export</button>
+    <button class="btn" onclick="doCopy()">Copy to clipboard</button>
+    <button class="btn" onclick="doImport()">Import</button>
+    <button class="btn" onclick="doDownload()">Download .json</button>
+  </div>
+</section>
+
+<footer>VESEMIR-7 // THE PATH DOES NOT CARE ABOUT YOUR FEELINGS // IT IS RECORDED NONETHELESS</footer>
+</div>
+
+<script>
+const KEY='vesemir7-dossier';
+const TREE_COLORS={Combat:'var(--blood)',Signs:'var(--aard)',Alchemy:'var(--axii)',General:'var(--quen)',Mutation:'var(--yrden)'};
+const DEFAULT={
+  level:7,
+  decisions:[
+    {text:"Simulated W2 save — Letho alive, Roche path, Triss saved, Síle dead, Anais to Roche",outcome:"neutral",zone:"Pre-game",date:"Jul 2026"},
+    {text:"Early ability points — Muscle Memory, Strength Training, Precise Blows maxed; Exploding Shield, Acquired Tolerance planted",outcome:"neutral",zone:"White Orchard",date:"Jul 2026"},
+    {text:"Convinced Keira to go to Kaer Morhen instead of Radovid — she lives",outcome:"neutral",zone:"Velen",date:"Jul 2026"},
+    {text:"Accepted the Baron's deal — family search for Ciri intel",outcome:"neutral",zone:"Velen",date:"Jul 2026"}
+  ],
+  skills:[
+    {name:"Muscle Memory",tree:"Combat",cur:3,max:3},
+    {name:"Strength Training",tree:"Combat",cur:3,max:3},
+    {name:"Precise Blows",tree:"Combat",cur:3,max:3},
+    {name:"Fleet Footed",tree:"Combat",cur:1,max:3},
+    {name:"Exploding Shield",tree:"Signs",cur:1,max:3},
+    {name:"Acquired Tolerance",tree:"Alchemy",cur:1,max:3},
+    {name:"Gourmet",tree:"General",cur:1,max:1}
+  ],
+  zones:[
+    {name:"White Orchard",pct:100,color:"var(--axii)"},
+    {name:"Velen / Novigrad",pct:15,color:"var(--yrden)"},
+    {name:"Skellige",pct:0,color:"var(--aard)"},
+    {name:"Kaer Morhen",pct:0,color:"var(--muted)"},
+    {name:"Hearts of Stone",pct:0,color:"var(--quen)"},
+    {name:"Blood and Wine",pct:0,color:"var(--blood)"}
+  ],
+  orders:"You're mid-Baron-questline in Velen, level 7. Rescue the Pellar's goat, then back to the family investigation. Thousand Flowers armor equipped — hunt the Moon Blade to replace the White Widow silver. Ping Vesemir-7 before Crookback Bog. The Crones are not to be trifled with blind.",
+  updated:null
+};
+
+let S=load();
+
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){const p=JSON.parse(raw);if(p&&p.skills&&p.decisions)return p;}
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT));
+}
+function persist(){
+  S.updated=new Date().toISOString();
+  try{localStorage.setItem(KEY,JSON.stringify(S));flash();}catch(e){}
+  render();
+}
+function flash(){
+  const f=document.getElementById('flash');
+  f.classList.add('show');setTimeout(()=>f.classList.remove('show'),1200);
+}
+
+/* ---- render ---- */
+let zoneEdit=false;
+function render(){
+  document.getElementById('stat-level').textContent=S.level;
+  document.getElementById('stat-decisions').textContent=S.decisions.length;
+  document.getElementById('last-updated').textContent=S.updated?new Date(S.updated).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'—';
+  renderSkills();renderDecisions();renderZones();renderCiri();
+  document.getElementById('orders-text').textContent='"'+S.orders+'"';
+}
+function renderSkills(){
+  const c=document.getElementById('skills');
+  c.innerHTML=S.skills.map((s,i)=>{
+    let pips='';
+    for(let p=0;p<s.max;p++)pips+='<span class="pip'+(p<s.cur?' on':'')+'"></span>';
+    return '<div class="skill">'+
+      '<span class="tree-dot" style="background:'+(TREE_COLORS[s.tree]||'var(--muted)')+'"></span>'+
+      '<div class="info"><div class="name">'+esc(s.name)+'</div><div class="tree">'+s.tree+' · '+s.cur+'/'+s.max+'</div></div>'+
+      '<div class="pips">'+pips+'</div>'+
+      '<button class="plus" onclick="bumpSkill('+i+')" aria-label="Increase '+esc(s.name)+'">+</button>'+
+    '</div>';
+  }).join('');
+}
+function renderDecisions(){
+  const c=document.getElementById('decisions');
+  if(!S.decisions.length){c.innerHTML='<div style="color:var(--muted);font-style:italic;text-align:center;padding:10px 0">Nothing recorded. Get on the Path.</div>';return;}
+  c.innerHTML=[...S.decisions].reverse().map((d,ri)=>{
+    const i=S.decisions.length-1-ri;
+    return '<div class="decision">'+
+      '<span class="d-dot '+d.outcome+'"></span>'+
+      '<div class="d-body"><div class="d-text">'+esc(d.text)+'</div>'+
+      '<div class="d-meta">'+(d.zone?esc(d.zone)+' · ':'')+esc(d.date||'')+'</div></div>'+
+      '<button class="d-del" onclick="delDecision('+i+')" aria-label="Delete entry">✕</button>'+
+    '</div>';
+  }).join('');
+}
+function renderZones(){
+  const c=document.getElementById('zones');
+  if(zoneEdit){
+    c.innerHTML=S.zones.map((z,i)=>
+      '<div class="zone"><div class="z-name">'+esc(z.name)+'</div>'+
+      '<input type="range" class="z-range" min="0" max="100" value="'+z.pct+'" id="zr'+i+'" oninput="document.getElementById(\'zp'+i+'\').textContent=this.value+\'%\'">'+
+      '<div class="z-pct" id="zp'+i+'">'+z.pct+'%</div></div>'
+    ).join('');
+  }else{
+    c.innerHTML=S.zones.map(z=>
+      '<div class="zone"><div class="z-name">'+esc(z.name)+'</div>'+
+      '<div class="z-track"><div class="z-fill" style="width:'+z.pct+'%;background:'+z.color+'"></div></div>'+
+      '<div class="z-pct">'+z.pct+'%</div></div>'
+    ).join('');
+  }
+}
+function renderCiri(){
+  const pos=S.decisions.filter(d=>d.outcome==='good').length;
+  const neg=S.decisions.filter(d=>d.outcome==='bad').length;
+  const t=pos+neg;
+  const pct=t===0?50:Math.round(pos/t*100);
+  document.getElementById('ciri-fill').style.width=pct+'%';
+  document.getElementById('ciri-note').textContent=t===0?'No Ciri-relevant decisions yet':pos+' positive · '+neg+' negative · '+t+' tracked';
+}
+
+/* ---- actions ---- */
+function lvl(d){S.level=Math.min(100,Math.max(1,S.level+d));persist();}
+function bumpSkill(i){const s=S.skills[i];s.cur=s.cur>=s.max?0:s.cur+1;persist();}
+function addSkill(){
+  const n=document.getElementById('sk-name').value.trim();
+  if(!n)return;
+  S.skills.push({name:n,tree:document.getElementById('sk-tree').value,cur:1,max:parseInt(document.getElementById('sk-max').value)});
+  document.getElementById('sk-name').value='';
+  toggle('skill-form');persist();
+}
+function addDecision(){
+  const t=document.getElementById('d-text').value.trim();
+  if(!t)return;
+  S.decisions.push({text:t,outcome:document.getElementById('d-outcome').value,zone:document.getElementById('d-zone').value.trim(),date:new Date().toLocaleDateString(undefined,{month:'short',day:'numeric'})});
+  document.getElementById('d-text').value='';document.getElementById('d-zone').value='';
+  toggle('d-form');persist();
+}
+function delDecision(i){S.decisions.splice(i,1);persist();}
+function toggleZones(){
+  if(zoneEdit){
+    S.zones.forEach((z,i)=>{z.pct=parseInt(document.getElementById('zr'+i).value);});
+    zoneEdit=false;document.getElementById('zone-btn').textContent='edit';persist();
+  }else{
+    zoneEdit=true;document.getElementById('zone-btn').textContent='save';renderZones();
+  }
+}
+function saveOrders(){
+  S.orders=document.getElementById('orders-input').value.trim()||S.orders;
+  toggle('orders-form');persist();
+}
+function toggle(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('hidden');
+  if(id==='orders-form'&&!el.classList.contains('hidden'))document.getElementById('orders-input').value=S.orders;
+  if(id==='d-form'&&!el.classList.contains('hidden'))document.getElementById('d-text').focus();
+}
+
+/* ---- io ---- */
+function doExport(){document.getElementById('io-box').value=JSON.stringify(S,null,2);}
+async function doCopy(){
+  doExport();
+  try{await navigator.clipboard.writeText(document.getElementById('io-box').value);flash();}
+  catch(e){document.getElementById('io-box').select();}
+}
+function doImport(){
+  try{
+    const v=document.getElementById('io-box').value.trim();
+    if(!v)return;
+    const p=JSON.parse(v);
+    if(p&&p.skills&&p.decisions){S=p;persist();alert('State restored. The Path continues.');}
+    else alert('That does not look like dossier state.');
+  }catch(e){alert('Could not parse JSON — check the text.');}
+}
+function doDownload(){
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='vesemir7-state.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+render();
+</script>
+</body>
+</html>
