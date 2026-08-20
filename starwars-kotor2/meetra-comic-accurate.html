@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#12141a">
+<title>Meetra Surik — Jedi Exile Run Log</title>
+<style>
+  :root{
+    --void:#12141a;
+    --void-2:#191c24;
+    --panel:#1e222c;
+    --line:#2b303c;
+    --ink:#e8e9ee;
+    --ink-dim:#9aa0b0;
+    --exile-blue:#5ec8ff;
+    --exile-blue-dim:#2a5570;
+    --gold:#d4af6a;
+    --sith-red:#8a3b3b;
+    --mono:'JetBrains Mono','SF Mono','Courier New',monospace;
+    --pad-x:24px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  html,body{margin:0;padding:0;background:var(--void);color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    overflow-x:hidden;}
+  body{background-image:
+      radial-gradient(circle at 15% 10%, rgba(94,200,255,0.05), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(212,175,106,0.04), transparent 45%);
+    padding-left:env(safe-area-inset-left); padding-right:env(safe-area-inset-right);}
+  h1,h2,h3,h4{font-family:Georgia,'Times New Roman',serif;font-weight:600;letter-spacing:.01em;margin:0 0 .4em 0;}
+  a{color:var(--exile-blue);}
+  .eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;font-size:11px;color:var(--exile-blue);opacity:.85;}
+
+  header.hero{padding:56px var(--pad-x) 40px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(94,200,255,0.06), transparent 70%);position:relative;overflow:hidden;}
+  header.hero::before{content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);
+    width:900px;height:900px;border-radius:50%;
+    background:radial-gradient(circle, rgba(94,200,255,0.10), transparent 60%);pointer-events:none;}
+  .hero-inner{max-width:920px;margin:0 auto;position:relative;}
+  .hero h1{font-size:clamp(30px,7vw,52px);color:var(--ink);}
+  .hero h1 .blade{display:inline-block;width:2px;height:.85em;background:linear-gradient(180deg,var(--exile-blue),transparent);
+    margin-left:10px;vertical-align:middle;box-shadow:0 0 12px var(--exile-blue);}
+  .hero p.sub{color:var(--ink-dim);max-width:640px;font-size:15px;line-height:1.6;}
+  .meter-row{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap;}
+  .meter{flex:1 1 220px;min-width:0;}
+  .meter .label{font-family:var(--mono);font-size:11px;color:var(--ink-dim);text-transform:uppercase;
+    letter-spacing:.1em;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px;}
+  .meter .track{height:8px;background:var(--void-2);border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+  .meter .fill{height:100%;border-radius:4px;}
+  .fill.light{background:linear-gradient(90deg,var(--gold),#f3e3b8);width:82%;box-shadow:0 0 10px rgba(212,175,106,.5);}
+  .fill.kreia{background:linear-gradient(90deg,var(--exile-blue-dim),var(--exile-blue));width:65%;}
+
+  nav.tabs{position:sticky;top:0;z-index:10;background:rgba(18,20,26,0.94);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 12px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  nav.tabs button{background:none;border:none;color:var(--ink-dim);font-family:var(--mono);font-size:12.5px;
+    text-transform:uppercase;letter-spacing:.08em;padding:16px 14px;cursor:pointer;white-space:nowrap;
+    border-bottom:2px solid transparent;min-height:48px;scroll-snap-align:center;
+    -webkit-tap-highlight-color:transparent;}
+  nav.tabs button.active{color:var(--exile-blue);border-bottom-color:var(--exile-blue);}
+  nav.tabs button:focus-visible{outline:2px solid var(--exile-blue);outline-offset:-4px;}
+
+  main{max-width:920px;margin:0 auto;padding:40px var(--pad-x) 100px;}
+  section.panel{display:none;}
+  section.panel.active{display:block;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:18px;}
+  .card h3{color:var(--ink);font-size:18px;}
+  .card h3 .num{color:var(--exile-blue);font-family:var(--mono);font-size:13px;margin-right:8px;}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;
+    padding:3px 8px;border-radius:20px;border:1px solid var(--line);color:var(--ink-dim);margin-right:6px;}
+  .tag.blue{border-color:var(--exile-blue-dim);color:var(--exile-blue);}
+  .tag.gold{border-color:#5a4a2c;color:var(--gold);}
+  .tag.red{border-color:#5a3232;color:#c96a6a;}
+
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:8px;}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim);font-weight:500;}
+  td.mono{font-family:var(--mono);color:var(--exile-blue);white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+
+  ul.clean{margin:8px 0;padding-left:20px;line-height:1.7;font-size:14.5px;}
+  ul.clean li{margin-bottom:6px;}
+  p{line-height:1.7;font-size:14.5px;color:var(--ink);}
+  .dim{color:var(--ink-dim);}
+
+  .callout{border-left:3px solid var(--exile-blue);background:rgba(94,200,255,0.06);padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;}
+  .callout.warn{border-left-color:var(--gold);background:rgba(212,175,106,0.07);}
+
+  /* Tracker checklist — full-row tap target */
+  .check-item{border-bottom:1px solid var(--line);}
+  .check-item:last-child{border-bottom:none;}
+  .check-item label{display:flex;align-items:flex-start;gap:14px;padding:14px 4px;cursor:pointer;
+    min-height:52px;font-size:15px;line-height:1.45;-webkit-tap-highlight-color:rgba(94,200,255,.08);}
+  .check-item input[type=checkbox]{appearance:none;-webkit-appearance:none;width:24px;height:24px;min-width:24px;
+    border:1px solid var(--line);border-radius:6px;background:var(--void-2);cursor:pointer;margin:0;position:relative;flex-shrink:0;}
+  .check-item input[type=checkbox]:checked{background:var(--exile-blue);border-color:var(--exile-blue);}
+  .check-item input[type=checkbox]:checked::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;
+    justify-content:center;color:#0c1116;font-size:15px;font-weight:700;}
+  .check-item input[type=checkbox]:focus-visible{outline:2px solid var(--exile-blue);outline-offset:2px;}
+  .check-item.done label{color:var(--ink-dim);text-decoration:line-through;}
+
+  .progress-bar{height:6px;background:var(--void-2);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin:6px 0 16px;}
+  .progress-bar>div{height:100%;background:linear-gradient(90deg,var(--exile-blue-dim),var(--exile-blue));transition:width .25s ease;}
+
+  .btn-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+  button.action{font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;
+    background:var(--void-2);border:1px solid var(--line);color:var(--ink);padding:13px 16px;border-radius:8px;
+    cursor:pointer;min-height:48px;flex:1 1 auto;-webkit-tap-highlight-color:transparent;}
+  button.action:focus-visible{outline:2px solid var(--exile-blue);outline-offset:2px;}
+  input[type=file]{display:none;}
+  .save-note{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin:0;}
+  .save-note.saved{color:var(--exile-blue);}
+
+  footer{text-align:center;padding:30px var(--pad-x) calc(30px + env(safe-area-inset-bottom));
+    color:var(--ink-dim);font-size:12px;font-family:var(--mono);}
+
+  /* ---- Mobile ---- */
+  @media (max-width:640px){
+    :root{--pad-x:16px;}
+    header.hero{padding:34px var(--pad-x) 26px;}
+    .hero p.sub{font-size:14.5px;}
+    .meter-row{gap:16px;margin-top:22px;}
+    main{padding:24px var(--pad-x) 80px;}
+    .card{padding:18px 16px;border-radius:8px;}
+    nav.tabs button{padding:15px 12px;font-size:12px;}
+    .btn-row{gap:8px;}
+    button.action{flex:1 1 100%;}
+    /* Stack 2- and 3-column tables into labelled rows instead of side-scrolling */
+    table.stack, table.stack tbody, table.stack tr, table.stack td{display:block;width:100%;}
+    table.stack thead{display:none;}
+    table.stack tr{border-bottom:1px solid var(--line);padding:10px 0;}
+    table.stack tr:last-child{border-bottom:none;}
+    table.stack td{border-bottom:none;padding:3px 0;}
+    table.stack td::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:10px;
+      text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim);margin-bottom:2px;}
+    table.stack td.mono{white-space:normal;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Run Log · Star Wars: KOTOR II — The Sith Lords</div>
+    <h1>Meetra Surik<span class="blade"></span></h1>
+    <p class="sub">Jedi Consular → Jedi Master. A wound in the Force who leans on it for almost everything, and carries a double-bladed saber only for the moments the Force can't reach. Target ending: Light Side, novel/comic-consistent — the Exile who stays a healer and a leader, not a saint.</p>
+    <div class="meter-row">
+      <div class="meter">
+        <div class="label"><span>Light / Dark target</span><span>82 / 18</span></div>
+        <div class="track"><div class="fill light"></div></div>
+      </div>
+      <div class="meter">
+        <div class="label"><span>Kreia influence</span><span>high, not max</span></div>
+        <div class="track"><div class="fill kreia"></div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="build">The Build</button>
+  <button data-tab="planets">Planets</button>
+  <button data-tab="companions">Companions</button>
+  <button data-tab="kreia">The Kreia Question</button>
+  <button data-tab="tracker">Tracker</button>
+</nav>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <section class="panel active" id="overview">
+    <div class="card">
+      <h3>The premise</h3>
+      <p>This run treats Meetra Surik the way the post-game Legends material (the <em>Revan</em> novel, the Old Republic comics, Wookieepedia's compiled account) treats her: a Consular first, a swordswoman second. She trained under Kavar and could have been a Guardian, but her real weapon is the Force — Battle Meditation, Force Barrier, Energy Resistance, and eventually Sever Force are the things she's actually known for. The lightsaber is a last-resort tool, not the build.</p>
+      <p>Her canon second saber (built under Kreia's guidance, during the game) is a <strong>double-bladed blue-blade lightsaber</strong> — that's the target loadout here, not a green or cyan one. Mechanically that means: take the minimum feat investment to make a double blade function safely, and spend everything else on Wisdom, Force powers, and Charisma-driven social skills (Persuade, Awareness) that reflect her being a wartime leader people followed.</p>
+    </div>
+    <div class="card">
+      <h3>What "comic-accurate, near-light" means here</h3>
+      <p>Legends canon settles Surik as Light Side by the end of the Jedi Civil War era material — she goes on to search for Revan and eventually helps against the True Sith. She's not written as a flawless saint, though: she's blunt, she doesn't fully trust the Council, and she doesn't let Kreia's nihilism go unchallenged even while learning from her. So the target isn't a maxed 100 Light "space Buddha" run — it's a strong, consistent Light alignment (roughly 75–90 on the LS/DS meter) reached through decisive, sometimes hard-edged good choices, not passive niceness.</p>
+      <div class="callout">
+        <strong>Rule of thumb:</strong> when a dialogue option is "the merciful/fair choice" vs "the naive/doormat choice," take the merciful one — Surik is compassionate, not a pushover. That reads as her, and it keeps LS gains coming from meaningful choices instead of grinding minor toggles.
+      </div>
+    </div>
+    <div class="card">
+      <h3>How this guide is organized</h3>
+      <ul class="clean">
+        <li><strong>The Build</strong> — attributes, feats, Force power priority, prestige class timing, the saber itself.</li>
+        <li><strong>Planets</strong> — the order to visit them in and who to bring, planned around companion story payoff.</li>
+        <li><strong>Companions</strong> — recruitment, who to keep light, Jedi training, and how to get the most content out of each.</li>
+        <li><strong>The Kreia Question</strong> — the actual tradeoff on maxing her influence, and the recommendation.</li>
+        <li><strong>Tracker</strong> — a checklist you can tick through in-game. It saves in this browser automatically; use Export for a backup you can move between devices.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BUILD -->
+  <section class="panel" id="build">
+    <div class="card">
+      <h3><span class="num">01</span>Attributes</h3>
+      <p class="dim">A caster-Consular spread. Just enough DEX/CON to not get chain-stunned, everything spare into WIS (power DCs, bonus FP as Jedi Master) and CHA (Persuade, and it's true to her leader characterization).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>STR</th><th>DEX</th><th>CON</th><th>INT</th><th>WIS</th><th>CHA</th></tr></thead>
+          <tbody><tr><td class="mono">10</td><td class="mono">14</td><td class="mono">12</td><td class="mono">10</td><td class="mono">16</td><td class="mono">15</td></tr></tbody>
+        </table>
+      </div>
+      <p class="dim">Keep WIS highest and STR lowest, but <strong>don't drop STR below 10</strong> — the double blade multiplies your Strength modifier by 1.5 on the main hand, so a negative modifier gets amplified. 10 is neutral; 9 is an active penalty.</p>
+      <div class="callout warn">
+        <strong>The INT question.</strong> INT 10 gives no bonus skill points, and Consular is already a 4-points-per-level class. Raising INT to 12 buys roughly +1 skill point per level — around 25 extra ranks across the run. If you want T3's full upgrade chain (see Skills below), take the INT 12 and pull the point from CHA. If you're happy delegating tech work, INT 10 is fine and CHA 15 does more for you.</div>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">02</span>Class path</h3>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Stage</th><th>Class</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Stage">Start</td><td data-label="Class">Jedi Consular</td><td data-label="Why">Best Force point progression and power-DC scaling of the three starting classes.</td></tr>
+            <tr><td data-label="Stage">Prestige (~lvl 15)</td><td data-label="Class">Jedi Master</td><td data-label="Why">The light-side Consular prestige class: bonus WIS, more FP, strongest support/utility powers. Gated on <em>your</em> alignment, not on Kreia's influence.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">03</span>Feats — the "surgical" list</h3>
+      <p>The double blade genuinely does use the Two-Weapon Fighting line, not the Dueling line. The engine treats a double-bladed weapon as two weapons: equipping one applies the standard <strong>−6 main hand / −10 off hand</strong> penalty, and the TWF feats are what reduce it. Double-bladed weapons also count as "balanced," which shaves the penalty further on top of the feats.</p>
+      <ul class="clean">
+        <li><strong>Lightsaber Proficiency</strong> — granted automatically to Jedi classes.</li>
+        <li><strong>Two-Weapon Fighting</strong> — take as soon as available. Without it you're swinging at −6/−10.</li>
+        <li><strong>Finesse: Lightsabers</strong> — <span class="tag blue">higher priority than Improved TWF</span> lets attack rolls use Dexterity instead of Strength. With DEX 14 and STR 10 that's a straight +2 to hit, and it's the feat that makes a low-Strength saber user viable at all.</li>
+        <li><strong>Improved Two-Weapon Fighting</strong> — nice once feat slots are genuinely spare. Third priority.</li>
+        <li><strong>Force Focus / Force Mastery lines</strong> — boost power DC; the actual backbone of the build.</li>
+        <li><em>Skip entirely:</em> Master Two-Weapon Fighting, Dueling line (it's for a single one-handed blade, so it does nothing for a double), Power Attack, ranged feats.</li>
+      </ul>
+      <div class="callout">
+        <strong>Damage caveat:</strong> the double blade's main hand applies 1.5× your Strength modifier, so a dumped Strength is worse here than it would be with a single saber. That's the argument for STR 10 over STR 9 — a negative modifier gets multiplied. Damage still won't be this character's strong suit, and that's fine; Finesse fixes the part that matters, which is landing the hit at all.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">04</span>Force powers — priority order</h3>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Category</th><th>Powers</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Category">Signature / story-flagged</td><td data-label="Powers"><strong>Battle Meditation</strong> (used on Onderon in the <em>Revan</em> novel — take it the moment it's offered), <strong>Sever Force</strong> (her "wound in the Force" signature — don't skip it)</td></tr>
+            <tr><td data-label="Category">Survivability</td><td data-label="Powers">Force Barrier, Energy Resistance, Force Immunity line — referenced fighting Vrook and surviving Sith Lightning</td></tr>
+            <tr><td data-label="Category">Control (LS-flavored)</td><td data-label="Powers">Stasis Field → Stasis, Force Wave, Whirlwind, Mind Trick kept to persuasive/non-lethal uses</td></tr>
+            <tr><td data-label="Category">Support</td><td data-label="Powers">Heal → Cure → Force Aura/Shield/Armor line, Force Valor</td></tr>
+            <tr><td data-label="Category">Mobility / utility</td><td data-label="Powers">Speed line, Force Sight</td></tr>
+            <tr><td data-label="Category" class="dim">Deliberately skipped</td><td data-label="Powers" class="dim">Drain Life, Death Field, Force Crush, Insanity, Choke. If a power is only on the Dark side of its tree, it's not in this build.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">05</span>Skills — what's safe to skip, what isn't</h3>
+      <p>The general rule in TSL: <strong>most tech work can be delegated.</strong> T3-M4 maxes Computer Use, Repair and Security effortlessly thanks to his INT upgrades, and you can swap him in at almost any terminal or locked door. So Computer Use and Security are cheap to under-invest in — with three specific exceptions.</p>
+      <p>Skills the PC must have, because nobody can cover for you:</p>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Skill</th><th>Target</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Skill"><strong>Persuade</strong></td><td data-label="Target">As high as you can carry</td><td data-label="Why">Never delegable — every dialogue check is yours. Also the peaceful resolution to a lot of encounters, which is how a Light run avoids unnecessary fights. Canon-appropriate: Persuade and Awareness are named as Surik's two best skills.</td></tr>
+            <tr><td data-label="Skill"><strong>Awareness</strong></td><td data-label="Target">15+ (11 early)</td><td data-label="Why">Gates dialogue, notably with Zez-Kai Ell. <strong>11 is the threshold for Kreia's listening lesson</strong> ("I heard her thoughts") and for a Mira influence option that makes her Jedi training much easier. Get to 11 early.</td></tr>
+            <tr><td data-label="Skill"><strong>Treat Injury</strong></td><td data-label="Target">Modest</td><td data-label="Why">Cheap, thematic for a healer, boosts medpac effectiveness.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The three places delegation actually fails:</p>
+      <ul class="clean">
+        <li><strong>Visquis's lair / Jekk'Jekk Tarr, Nar Shaddaa</strong> — <span class="tag red">the real trap</span> you go in without T3 or HK, so their Security is unavailable. If you want the sliced routes here rather than fighting through, the points have to be on you.</li>
+        <li><strong>Onderon Palace</strong> — several worthwhile Security doors, but you can bring a droid, so this one's fine to delegate.</li>
+        <li><strong>T3-M4's full upgrade chain</strong> — needs roughly <strong>21 Computer Use and 21 Repair on your own character</strong>, since T3 can't upgrade himself. The single most expensive skill commitment in the game.</li>
+      </ul>
+      <div class="callout warn">
+        <strong>The honest tradeoff.</strong> On a 4-points-per-level Consular with INT 10, you cannot have Persuade, Awareness, <em>and</em> 21/21 Computer Use and Repair. Something gives. Recommendation for this run: take Persuade and Awareness to the cap, skip the 21/21 T3 chain, and skip Security entirely rather than half-funding it. You lose T3's stat upgrades and the moving-meditation reward, a real but contained loss; you keep every dialogue option, which is what a Consular playthrough is built around. If T3's chain matters to you, that's the case for INT 12 at creation.
+      </div>
+      <div class="callout warn">
+        <strong>The cross-class rank cap changes the Security answer.</strong> Class skills cap at <strong>level + 3</strong>; cross-class skills cap at <strong>half that</strong>. For a Consular, Persuade, Awareness, Treat Injury, Computer Use and Repair are class skills — so your two priorities cost one point per rank and can be raised to the full cap. Security is cross-class: double cost, and hard-capped around <strong>14 ranks at level 25</strong> no matter how much you spend. That's likely short of the hardest slicing checks even before you account for the doubled price. So <em>don't</em> half-invest in Security hoping to cover Nar Shaddaa — either commit early and lean on gear bonuses, or skip it and fight through Visquis's lair. Half-measures buy you nothing here.
+        <br><br>Confirm at character creation: the level-up screen shows class skills at 1 point per rank and cross-class at 2. If Security shows as a class skill on your build, ignore the above and buy it freely.
+      </div>
+      <p class="dim">Cross-class ranks are also <strong>not retroactive</strong>, so anything cross-class has to be bought as you go, never caught up later. Computer Use, Repair and Persuade are the only three skills that affect XP gain.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">06</span>Her double blue</h3>
+      <p>Build the double-bladed hilt as soon as parts allow (Telos/Dantooine workbenches), then carry it for the rest of the game. Use a blue color crystal — this matches the second lightsaber established for her post-exile in <em>Revan</em>, built under Kreia's tutelage.</p>
+      <ul class="clean">
+        <li><strong>Color crystal:</strong> blue.</li>
+        <li><strong>Upgrade crystals:</strong> favor save-DC / Wisdom-adjacent bonuses or Force-cost reduction over raw melee damage — lean the item bonuses the same direction as the build.</li>
+        <li>Don't sink credits into a second lightsaber or a blaster loadout. One weapon, minimally invested, is the point.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PLANETS -->
+  <section class="panel" id="planets">
+    <div class="card">
+      <h3>Planned order</h3>
+      <p class="dim">After the fixed opening (Peragus → Harbinger → Telos), the middle of the game opens up. This order ramps difficulty sensibly and hits companion beats roughly in the order their stories want to be told.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">1</span>Telos — Citadel Station + Restoration Zone</h3>
+      <p><span class="tag blue">Fixed / opening</span></p>
+      <p>Recruits Bao-Dur and unlocks the Ebon Hawk properly. Bring <strong>Kreia + Atton</strong> — both have a lot of early commentary here. Talk to Kreia after every major choice; her earliest influence gates are here.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">2</span>Dantooine</h3>
+      <p><span class="tag gold">Recommended first open planet</span></p>
+      <p>Lower difficulty spike, and thematically right — Surik's old stomping ground, and it gives Kreia room to teach without the party in immediate danger. Bring <strong>Kreia + Bao-Dur</strong> (his reaction to the ruined Enclave matters), rotating in Mical once recruited.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">3</span>Nar Shaddaa</h3>
+      <p>Recruits Mira, Visas Marr, and the G0-T0 thread. Bring <strong>Atton</strong> (his underworld past pays off here) and <strong>Bao-Dur</strong> — both have multiple influence spots on this planet specifically. Side with Mira over Hanharr; don't let his recruitment content pressure you into a dark resolution.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">4</span>Onderon &amp; Dxun</h3>
+      <p>Bring <strong>Mandalore</strong> on Dxun (his commentary on the old war is his best material) plus <strong>Bao-Dur</strong>, who built the mines here during the Mandalorian Wars, and <strong>Mira</strong> for her influence check. In Iziz, Mandalore is effectively mandatory. This is also where Battle Meditation gets its narrative payoff.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">5</span>Korriban</h3>
+      <p><span class="tag red">Save for last of the three</span></p>
+      <p>The heaviest Dark Side pressure in the game — arrive at higher level with alignment already solidly Light. Note that <strong>Kreia can't accompany you into the tomb</strong>, though she still speaks through the Force. Bring <strong>Visas</strong> plus Atton, Mira, or HK-47 for the atmosphere dialogue.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="num">6</span>Endgame — Ravager → Trayus Academy → Malachor V</h3>
+      <p>Bring whichever two companions have the least-resolved arcs going in (commonly Visas and Atton, or Visas and Bao-Dur) so their content triggers before the finale. Kreia is locked in for the true finale regardless.</p>
+    </div>
+  </section>
+
+  <!-- COMPANIONS -->
+  <section class="panel" id="companions">
+    <div class="card">
+      <h3>Recruitment order</h3>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Companion</th><th>Where</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Companion">Kreia, Atton, T3-M4</td><td data-label="Where" class="mono">Peragus</td><td data-label="Notes">Join before you reach Telos.</td></tr>
+            <tr><td data-label="Companion">Bao-Dur</td><td data-label="Where" class="mono">Telos surface</td><td data-label="Notes">Rescue him from the Czerka excavation.</td></tr>
+            <tr><td data-label="Companion">HK-47</td><td data-label="Where" class="mono">Telos surface</td><td data-label="Notes">Parts scattered through the Czerka facility; assemble fully for his personal quest.</td></tr>
+            <tr><td data-label="Companion">Mical (the Disciple)</td><td data-label="Where" class="mono">Telos Academy</td><td data-label="Notes">Female Exile recruits Mical. The Handmaiden is the male-Exile equivalent — not available to Meetra.</td></tr>
+            <tr><td data-label="Companion">Mira</td><td data-label="Where" class="mono">Nar Shaddaa</td><td data-label="Notes">Bounty hunter; her and Hanharr's paths are mutually exclusive in practice.</td></tr>
+            <tr><td data-label="Companion">Visas Marr</td><td data-label="Where" class="mono">Nar Shaddaa</td><td data-label="Notes">Recruited after the Visquis/yacht confrontation.</td></tr>
+            <tr><td data-label="Companion">Mandalore</td><td data-label="Where" class="mono">Onderon/Dxun</td><td data-label="Notes">Arc deepens on Dxun specifically.</td></tr>
+            <tr><td data-label="Companion">G0-T0</td><td data-label="Where" class="mono">Nar Shaddaa (late)</td><td data-label="Notes">Unlocks after the Nar Shaddaa main thread resolves.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Jedi training — what this run can and can't get</h3>
+      <div class="callout">
+        <strong>Companion Jedi training is gated on your influence with that companion individually — not on Kreia's influence bar, and not on the prestige class.</strong> Aiming Kreia at "high, not max" costs you none of these. If anything, a committed Light run makes them <em>easier</em>, because most of their positive-influence triggers are the same merciful/decisive choices this build is already making.
+      </div>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Companion</th><th>Becomes</th><th>What it takes</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Companion">Atton</td><td data-label="Becomes">Jedi Sentinel</td><td data-label="What it takes">Positive influence, then his Nar Shaddaa confession chain. The easiest of the group on a Light run.</td></tr>
+            <tr><td data-label="Companion">Bao-Dur</td><td data-label="Becomes">Jedi Guardian / Consular</td><td data-label="What it takes">Positive influence, built largely by having him present for Light Side actions. Triggers a late Ebon Hawk conversation about his nightmares — keep him in the party rotation or you can miss the window.</td></tr>
+            <tr><td data-label="Companion">Mira</td><td data-label="Becomes">Jedi Sentinel</td><td data-label="What it takes">High influence, then a specific conversation back on Nar Shaddaa, outside the cantina/pazaak den. Requires returning to the planet — don't leave it until after the point of no return.</td></tr>
+            <tr><td data-label="Companion">Mical (Disciple)</td><td data-label="Becomes">Jedi Consular</td><td data-label="What it takes">Positive influence through his lore/Council conversations. Straightforward on a Light run.</td></tr>
+            <tr><td data-label="Companion">Handmaiden (Brianna)</td><td data-label="Becomes">Jedi Guardian</td><td data-label="What it takes"><span class="tag red">Not available</span> Male-Exile only. Meetra gets Mical in this slot — this is a gender-locked exclusion, not something the build costs you.</td></tr>
+            <tr><td data-label="Companion">Visas Marr</td><td data-label="Becomes">Already a Force user</td><td data-label="What it takes">No training needed; influence instead drives her redemption arc toward Light.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="dim">Watch-out: if your influence with Visas runs well ahead of another companion's, it can stall their conversation chains. Rotate deliberately rather than defaulting to the same party every planet.</p>
+      <p class="dim">T3-M4 and HK-47 aren't alignment-gated at all — their best content (T3's repair upgrades, HK's "Jedi Killing Lessons") is skill-check and availability based, so this run keeps both in full.</p>
+    </div>
+
+    <div class="card">
+      <h3>Keeping the party Light</h3>
+      <p>Companion alignment tracks yours through influence: high influence pulls them toward your alignment, low influence lets them drift the other way. Priorities for this run:</p>
+      <ul class="clean">
+        <li><strong>Bao-Dur &amp; T3-M4</strong> — both can flip Dark through careless dialogue (notably the Czerka scientist and the Peragus fuel line). Always take the kind/patient option with them specifically.</li>
+        <li><strong>Atton &amp; Mical</strong> — their arcs are explicitly about choosing a side; consistent Light choices resolve them cleanly by the finale.</li>
+        <li><strong>Visas Marr</strong> — her whole arc is Sith-to-Light; bring her to Korriban and Malachor and talk to her after.</li>
+        <li><strong>Mira</strong> — responds to competence and mercy, both of which this build already leans into.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Maximizing story payoff, not just influence numbers</h3>
+      <ul class="clean">
+        <li><strong>Bao-Dur</strong> → Dantooine and Dxun; both tie directly to his backstory.</li>
+        <li><strong>Mical</strong> → anything Jedi-Council or Jedi-history related; his dialogue is built around lore commentary.</li>
+        <li><strong>Atton</strong> → Nar Shaddaa and pazaak/underworld content, and keep him in rotation generally since much of his arc is proximity-gated rather than location-gated.</li>
+        <li><strong>Visas</strong> → Korriban and Malachor for her strongest unique lines.</li>
+        <li><strong>Mandalore</strong> → Dxun and any Mandalorian-Wars conversation triggers.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- KREIA -->
+  <section class="panel" id="kreia">
+    <div class="card">
+      <h3>The actual tradeoff</h3>
+      <p>Worth being straight about this: Kreia's influence system runs largely opposite to a clean Light run. You gain influence with her mostly through Dark-flavored or cynical remarks, and lose it with straightforwardly Light ones — she scolds you for "the charity act" and rewards agreeing with her bleaker read of events. A handful of gains are alignment-neutral (simply talking to her, the listening lessons, a few Light-compatible philosophical agreements), but the bulk of a maxed bar comes from leaning into her worldview at moments that also cost Light Side points or push a companion Dark.</p>
+      <div class="callout warn">
+        <strong>Recommendation: don't chase max.</strong> Maxing her would mean repeatedly taking the darker remark in conversations that also gate Bao-Dur's, T3's, and Atton's alignment — working directly against both the near-Light goal and the companion Jedi training above. It's the one system in the game genuinely built to fight a clean Light playthrough.
+      </div>
+    </div>
+    <div class="card">
+      <h3>What you give up, and what you keep</h3>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Maxing Kreia</th><th>Maxing Light Side</th></tr></thead>
+          <tbody>
+            <tr>
+              <td data-label="Maxing Kreia">Repeated lessons: XP, +1 Awareness, ~+12 FP each. Her private stories about Revan and the Mandalorian Wars. More late-game dialogue instead of her going quiet.</td>
+              <td data-label="Maxing Light Side">Jedi Master's bonus Wisdom (vs. Sith Lord's flat FP) — and WIS compounds into power DCs and FP anyway. Light-only power branches. Easier Persuade/Awareness checks. The Light ending state and clean companion epilogues.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="dim">For this character, the right column is the one that matters. The left column is a nice-to-have you can partially collect without paying full price for it.</p>
+    </div>
+    <div class="card">
+      <h3>The free gains — take every one of these</h3>
+      <p class="dim">These are +8 influence each with <strong>no alignment cost whatsoever</strong>. They're pure profit for this run. All happen in conversation aboard the Ebon Hawk.</p>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Trigger</th><th>Take this line</th><th>Also gives</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Trigger">After Visas joins — "she did something to my eyesight." Kreia says <em>close your eyes</em></td><td data-label="Take this line">"All right." (not "I'm not ready for this yet")</td><td data-label="Also gives">500 XP, +6 max FP. With <strong>Awareness 11</strong>, pick "I heard her thoughts" → +1 Awareness</td></tr>
+            <tr><td data-label="Trigger">The skill lesson — she asks your greatest strength and weakness</td><td data-label="Take this line">"Very well. I shall take this lesson to heart."<br><span class="dim">Never "That seems... beneath me" — that's −8.</span></td><td data-label="Also gives">1000 XP, +6 max FP, skill bonuses on return</td></tr>
+            <tr><td data-label="Trigger">"Before, when you taught me to listen — I wish to continue that lesson"</td><td data-label="Take this line">Just accept and sit with her</td><td data-label="Also gives">500 XP, +6 max FP, the party-thoughts scene</td></tr>
+            <tr><td data-label="Trigger">After Visas joins, on her being a threat</td><td data-label="Take this line">"Ties to her master, perhaps. And I intend to follow that bond to its source."</td><td data-label="Also gives">—</td></tr>
+            <tr><td data-label="Trigger">Ask "Were you the one who taught Revan?" <span class="tag blue">needs &gt;90</span></td><td data-label="Take this line">Push her on it once the influence gate opens</td><td data-label="Also gives">1000 XP, the Revan-as-her-Padawan reveal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Where she gets annoyed at you for helping — and what to do</h3>
+      <p>You're right that voluntary charity irritates her, and the game makes it an explicit fork. Here's each one, with the call for this run.</p>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>The moment</th><th>The fork</th><th>Call</th></tr></thead>
+          <tbody>
+            <tr>
+              <td data-label="The moment"><strong>The charity lecture.</strong> First talk on Citadel Station with Alignment &gt;70. She asks why you show mercy, then says aiding people weakens them — and to view your companions the same way.</td>
+              <td data-label="The fork">"They are loyal companions — I will not harm them" → <strong>+4 Light, −8 Kreia</strong><br>vs. "Then I shall view you as disposable" → <strong>+8 Kreia</strong></td>
+              <td data-label="Call"><span class="tag gold">Take the Light line</span> This is the single most on-character moment in the game for Surik. Eat the −8.</td>
+            </tr>
+            <tr>
+              <td data-label="The moment"><strong>The Handmaiden question</strong> (male Exile only — skip on this run, noted for completeness)</td>
+              <td data-label="The fork">Trusting her → −8 Kreia. "We need every tool we can get" → +8 Kreia</td>
+              <td data-label="Call">N/A for Meetra</td>
+            </tr>
+            <tr>
+              <td data-label="The moment"><strong>Sacrificing Visas.</strong> Kreia says you must be prepared to sacrifice the blinded one.</td>
+              <td data-label="The fork">"I will never do such a thing" → +2 Light, −8 Kreia<br>"If that is what must be done" → +8 Kreia, <strong>Dark points</strong><br>"Convince her to sacrifice herself" → +8 Kreia, <strong>heavy Dark</strong></td>
+              <td data-label="Call"><span class="tag red">Refuse, always</span> The dark options here also gut Visas's redemption arc, which you want intact.</td>
+            </tr>
+            <tr>
+              <td data-label="The moment"><strong>Friends vs. tools.</strong> After Mical joins, she calls your companions followers.</td>
+              <td data-label="The fork">"They're my friends, not my followers" → Light points<br>"I'll think on how my allies may be used" → Dark points</td>
+              <td data-label="Call"><span class="tag gold">Friends</span> Cheap Light points; the influence swing here is minor.</td>
+            </tr>
+            <tr>
+              <td data-label="The moment"><strong>Hanharr's lesson of strength</strong> (only if you took Hanharr over Mira)</td>
+              <td data-label="The fork">Reject it — "The only power I need is myself" → <strong>+8 Kreia, +2 Wisdom, 1000 XP</strong><br>Accept it → Dark points, +1 CON/+2 STR, half XP, no influence</td>
+              <td data-label="Call"><span class="tag blue">Rejecting is strictly better</span> — more influence, more XP, and WIS is your key stat. Rare case where the Light choice is also the influence-optimal one. Doesn't apply if you took Mira, which this run does.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Why "high" still unlocks nearly everything</h3>
+      <p>Her lore conversations are gated on influence being <em>extreme in either direction</em> — very high or very low both pass, and the middle fails. The thresholds:</p>
+      <div class="table-wrap">
+        <table class="stack">
+          <thead><tr><th>Conversation</th><th>Needs</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Conversation">"Did you know Atris at all?"</td><td data-label="Needs">&gt;60 or &lt;40</td></tr>
+            <tr><td data-label="Conversation">How Revan amassed his force</td><td data-label="Needs">&gt;65 or &lt;35</td></tr>
+            <tr><td data-label="Conversation">What the Sith who pursue you are</td><td data-label="Needs">&gt;70 or &lt;30</td></tr>
+            <tr><td data-label="Conversation">"What are you — Jedi or Sith?"</td><td data-label="Needs">&gt;89 or &lt;11</td></tr>
+            <tr><td data-label="Conversation">"Did you know Revan?" / "You trained him?"</td><td data-label="Needs">&gt;90 or &lt;10</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Starting influence is 50, and gains/losses move in steps of 8. Banking just the four free gains available on a Mira run puts you at <strong>82</strong> without a single dark choice — clearing every gate except the top two. Add the scattered no-cost conversational gains and low 90s is reachable while staying firmly Light; you'd only need to concede the charity-lecture line to get there comfortably, and that one is worth refusing on principle.</p>
+      <div class="callout">
+        <strong>The one real sacrifice:</strong> if you refuse the charity lecture (−8) and refuse the Visas sacrifice (−8), you're spending 16 points and may land in the mid-70s to mid-80s. That costs you the <em>"Did you know Revan / I trained him"</em> reveal at &gt;90. It's excellent lore, but it's also the one thing this run trades away — and Surik refusing to call her friends disposable is more in character than hearing one more Revan story.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Aim high, not max</h3>
+      <ul class="clean">
+        <li>Talk to Kreia constantly — pure conversation and the listening lessons are free influence at no alignment cost.</li>
+        <li>Take the Light-compatible agreement lines when they appear (e.g. "no one is beyond redemption" at the tomb of Ajunta Pall with sufficient Awareness; agreeing with her <em>reasoning</em> rather than her methods).</li>
+        <li>Skip gains that require letting someone die, lying to an NPC for gain, or telling her charity is for suckers — those double as Dark Side and companion-corruption triggers.</li>
+        <li>Land at "high influence, most of her training and dialogue unlocked." That's the version of this relationship where Surik learns from Kreia without becoming her.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TRACKER -->
+  <section class="panel" id="tracker">
+    <div class="card">
+      <div class="btn-row">
+        <button class="action" id="exportBtn">Export backup</button>
+        <button class="action" id="importBtn">Import backup</button>
+        <input type="file" id="importFile" accept="application/json">
+        <button class="action" id="resetBtn">Reset all</button>
+      </div>
+      <div class="progress-bar"><div id="progressFill" style="width:0%"></div></div>
+      <p class="save-note" id="progressLabel">0 / 0 complete</p>
+      <p class="save-note" id="saveStatus" style="margin-top:6px;">Saves automatically in this browser.</p>
+    </div>
+
+    <div class="card"><h3>Build milestones</h3><div id="group-build"></div></div>
+    <div class="card"><h3>Planets</h3><div id="group-planets"></div></div>
+    <div class="card"><h3>Companions</h3><div id="group-companions"></div></div>
+    <div class="card"><h3>Kreia</h3><div id="group-kreia"></div></div>
+    <div class="card"><h3>Endgame</h3><div id="group-endgame"></div></div>
+  </section>
+
+</main>
+
+<footer>meetra surik · exile run log</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- Tabs ----
+  var tabs = document.querySelectorAll('#tabs button');
+  Array.prototype.forEach.call(tabs, function(btn){
+    btn.addEventListener('click', function(){
+      Array.prototype.forEach.call(tabs, function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      Array.prototype.forEach.call(document.querySelectorAll('section.panel'), function(p){ p.classList.remove('active'); });
+      document.getElementById(btn.dataset.tab).classList.add('active');
+      btn.scrollIntoView({block:'nearest', inline:'center'});
+      window.scrollTo(0,0);
+    });
+  });
+
+  // ---- Checklist data ----
+  var checklist = {
+    build: [
+      ["attr","Attributes set (WIS priority, STR dumped)"],
+      ["twf","Two-Weapon Fighting taken"],
+      ["finesse","Finesse: Lightsabers taken"],
+      ["itwf","Improved Two-Weapon Fighting taken"],
+      ["aware11","Awareness 11+ reached (Kreia lesson / Mira option)"],
+      ["saber","Double-bladed hilt built"],
+      ["bluecrystal","Blue color crystal installed"],
+      ["battlemed","Battle Meditation learned"],
+      ["severforce","Sever Force learned"],
+      ["barrier","Force Barrier / Energy Resistance learned"],
+      ["prestige","Jedi Master prestige class unlocked"]
+    ],
+    planets: [
+      ["telos","Telos (Citadel Station + surface) complete"],
+      ["dantooine","Dantooine complete"],
+      ["narshaddaa","Nar Shaddaa complete"],
+      ["onderon","Onderon & Dxun complete"],
+      ["korriban","Korriban complete"],
+      ["endgamep","Ravager / Trayus Academy / Malachor V complete"]
+    ],
+    companions: [
+      ["recbaodur","Bao-Dur recruited"],
+      ["rechk47","HK-47 recruited and rebuilt"],
+      ["recmical","Mical (Disciple) recruited"],
+      ["recmira","Mira recruited"],
+      ["recvisas","Visas Marr recruited"],
+      ["recgoto","G0-T0 recruited"],
+      ["jediatton","Atton trained as Jedi Sentinel"],
+      ["jedibaodur","Bao-Dur trained as Jedi (nightmare conversation triggered)"],
+      ["jedimira","Mira trained as Jedi (return trip to Nar Shaddaa)"],
+      ["jedimical","Mical trained as Jedi Consular"],
+      ["t3upgrade","T3-M4 fully repaired (21 Repair / Computer Use)"],
+      ["hklessons","HK-47 Jedi Killing Lessons received"],
+      ["lightbaodur","Bao-Dur kept Light"],
+      ["lightt3","T3-M4 kept Light"],
+      ["lightvisas","Visas resolved Light"]
+    ],
+    kreia: [
+      ["kreialisten1","Listening lesson accepted (+8, Awareness 11 check)"],
+      ["kreiaskill","Skill lesson — 'I shall take this lesson to heart' (+8)"],
+      ["kreialisten2","Listening lesson continued (+8)"],
+      ["kreiavisasbond","Visas: 'follow that bond to its source' (+8)"],
+      ["kreiacharity","Charity lecture — refused to call companions disposable"],
+      ["kreiavisassac","Refused to sacrifice Visas"],
+      ["kreiaredemption","'No one is beyond redemption' (Ajunta Pall) taken"],
+      ["kreianomax","Held the line — declined the Dark-flavored max-influence gains"]
+    ],
+    endgame: [
+      ["finalparty","Finale party chosen for least-resolved arcs"],
+      ["lightend","Light Side ending confirmed (~75-90 LS)"]
+    ]
+  };
+
+  var STORAGE_KEY = 'meetra-surik-tracker-v1';
+  var state = {};
+  var canStore = true;
+
+  try {
+    var saved = window.localStorage.getItem(STORAGE_KEY);
+    if (saved) state = JSON.parse(saved) || {};
+  } catch (e) {
+    canStore = false;
+  }
+
+  function persist(){
+    if (!canStore) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      canStore = false;
+      setStatus('Browser storage unavailable — use Export to keep your progress.');
+    }
+  }
+
+  function setStatus(msg){
+    var el = document.getElementById('saveStatus');
+    el.textContent = msg;
+  }
+
+  function flashSaved(){
+    if (!canStore) return;
+    var el = document.getElementById('saveStatus');
+    el.textContent = 'Saved';
+    el.classList.add('saved');
+    clearTimeout(flashSaved._t);
+    flashSaved._t = setTimeout(function(){
+      el.classList.remove('saved');
+      el.textContent = 'Saves automatically in this browser.';
+    }, 1400);
+  }
+
+  function render(){
+    var total = 0, done = 0;
+    Object.keys(checklist).forEach(function(group){
+      var container = document.getElementById('group-' + group);
+      container.innerHTML = '';
+      checklist[group].forEach(function(item){
+        var id = item[0], text = item[1];
+        total++;
+        if (state[id]) done++;
+        var row = document.createElement('div');
+        row.className = 'check-item' + (state[id] ? ' done' : '');
+        var label = document.createElement('label');
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = !!state[id];
+        var span = document.createElement('span');
+        span.innerHTML = text;
+        label.appendChild(cb);
+        label.appendChild(span);
+        row.appendChild(label);
+        container.appendChild(row);
+        cb.addEventListener('change', function(){
+          state[id] = cb.checked;
+          persist();
+          render();
+          flashSaved();
+        });
+      });
+    });
+    document.getElementById('progressFill').style.width = (total ? (done/total*100) : 0) + '%';
+    document.getElementById('progressLabel').textContent = done + ' / ' + total + ' complete';
+  }
+
+  if (!canStore) setStatus('Browser storage unavailable — use Export to keep your progress.');
+  render();
+
+  document.getElementById('exportBtn').addEventListener('click', function(){
+    var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'meetra-surik-progress.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  });
+
+  document.getElementById('importBtn').addEventListener('click', function(){
+    document.getElementById('importFile').click();
+  });
+
+  document.getElementById('importFile').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(evt){
+      try {
+        var data = JSON.parse(evt.target.result);
+        Object.keys(state).forEach(function(k){ delete state[k]; });
+        Object.keys(data).forEach(function(k){ state[k] = data[k]; });
+        persist();
+        render();
+        flashSaved();
+      } catch (err) {
+        alert('Could not read that file. Make sure it is a progress .json exported from this tracker.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if (confirm('Clear all checked progress?')) {
+      Object.keys(state).forEach(function(k){ delete state[k]; });
+      persist();
+      render();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

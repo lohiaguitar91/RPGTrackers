@@ -2,47 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vesemir-7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#12141a">
+<title>RPG Trackers</title>
 <style>
-  :root{
-    --bg:#17140f;
-    --ink:#e8dec8;
-    --muted:#8a7f68;
-    --igni:#e0762f;
-    --line:#3a3225;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:system-ui,sans-serif;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-  }
-  .wrap{padding:2rem}
-  h1{font-size:2rem;margin-bottom:0.5rem;letter-spacing:0.02em}
-  p{color:var(--muted);margin-bottom:2rem}
-  a.btn{
-    display:inline-block;
-    padding:0.75rem 1.5rem;
-    border:1px solid var(--line);
-    border-radius:8px;
-    color:var(--igni);
-    text-decoration:none;
-    font-weight:600;
-  }
-  a.btn:hover{border-color:var(--igni)}
+  :root{--void:#12141a;--panel:#1e222c;--line:#2b303c;--ink:#e8e9ee;--ink-dim:#9aa0b0;
+    --mono:'JetBrains Mono','SF Mono','Courier New',monospace;}
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--void);color:var(--ink);min-height:100vh;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    padding:calc(56px + env(safe-area-inset-top)) 20px 60px;}
+  .wrap{max-width:640px;margin:0 auto;}
+  .eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+    font-size:11px;color:var(--ink-dim);margin-bottom:10px;}
+  h1{font-family:Georgia,serif;font-size:clamp(28px,6vw,40px);margin:0 0 8px;}
+  p.sub{color:var(--ink-dim);font-size:15px;line-height:1.6;margin:0 0 36px;}
+  a.card{display:block;text-decoration:none;color:inherit;background:var(--panel);
+    border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-bottom:14px;
+    transition:border-color .18s ease,transform .18s ease;-webkit-tap-highlight-color:transparent;}
+  a.card:hover,a.card:focus-visible{transform:translateY(-2px);}
+  a.card.kotor:hover,a.card.kotor:focus-visible{border-color:#5ec8ff;}
+  a.card.tw3:hover,a.card.tw3:focus-visible{border-color:#c9a227;}
+  a.card h2{font-family:Georgia,serif;font-size:20px;margin:0 0 6px;}
+  a.card .game{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.1em;margin-bottom:10px;}
+  a.card.kotor .game{color:#5ec8ff;}
+  a.card.tw3 .game{color:#c9a227;}
+  a.card p{margin:0;color:var(--ink-dim);font-size:14px;line-height:1.6;}
+  footer{margin-top:44px;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);}
+  @media (prefers-reduced-motion:reduce){a.card{transition:none;}}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Vesemir-7</h1>
-    <p>Run Dossier Tracker</p>
-    <a class="btn" href="tracker/vesemir7-tracker.html">Open Tracker →</a>
+    <div class="eyebrow">Playthrough logs</div>
+    <h1>RPG Trackers</h1>
+    <p class="sub">Build guides and progress checklists, one per playthrough. Each saves its own progress in your browser.</p>
+
+    <a class="card kotor" href="./starwars-kotor2/meetra-comic-accurate.html">
+      <div class="game">Knights of the Old Republic II</div>
+      <h2>Meetra Surik — Jedi Exile Run Log</h2>
+      <p>Force-heavy Consular with a double-bladed blue saber. Near-Light, Legends-accurate, with planet order, companion pairings, and the Kreia influence problem worked out.</p>
+    </a>
+
+    <a class="card tw3" href="./witcher3/vesemir-7.html">
+      <div class="game">The Witcher 3</div>
+      <h2>Vesemir Run Log</h2>
+      <p>Build guide and progress tracker.</p>
+    </a>
+
+    <footer>hosted on github pages</footer>
   </div>
 </body>
 </html>
