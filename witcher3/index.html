@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#12141a">
+<title>The Witcher 3 — Trackers</title>
+<style>
+  :root{--void:#12141a;--panel:#1e222c;--line:#2b303c;--ink:#e8e9ee;--ink-dim:#9aa0b0;
+    --accent:#c9a227;--mono:'JetBrains Mono','SF Mono','Courier New',monospace;}
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--void);color:var(--ink);min-height:100vh;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    padding:calc(40px + env(safe-area-inset-top)) 20px 60px;}
+  .wrap{max-width:640px;margin:0 auto;}
+  a.back{display:inline-block;font-family:var(--mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--ink-dim);text-decoration:none;margin-bottom:22px;}
+  a.back:hover,a.back:focus-visible{color:var(--accent);}
+  img.hero{display:block;width:100%;height:auto;aspect-ratio:460/215;object-fit:cover;
+    border:1px solid var(--line);border-radius:10px;margin-bottom:22px;}
+  h1{font-family:Georgia,serif;font-size:clamp(26px,5.5vw,36px);margin:0 0 8px;}
+  p.sub{color:var(--ink-dim);font-size:15px;line-height:1.6;margin:0 0 32px;}
+  .section{font-family:var(--mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:.16em;color:var(--ink-dim);margin-bottom:12px;}
+  a.card{display:block;text-decoration:none;color:inherit;background:var(--panel);
+    border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:14px;
+    transition:border-color .18s ease,transform .18s ease;-webkit-tap-highlight-color:transparent;}
+  a.card:hover,a.card:focus-visible{transform:translateY(-2px);border-color:var(--accent);}
+  a.card .tag{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.1em;color:var(--accent);margin-bottom:10px;}
+  a.card h2{font-family:Georgia,serif;font-size:19px;margin:0 0 6px;}
+  a.card p{margin:0;color:var(--ink-dim);font-size:14px;line-height:1.6;}
+  footer{margin-top:44px;font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);}
+  @media (prefers-reduced-motion:reduce){a.card{transition:none;}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../">&larr; All trackers</a>
+    <img class="hero" src="./cover.jpg" alt="The Witcher 3: Wild Hunt">
+    <h1>The Witcher 3</h1>
+    <p class="sub">Wild Hunt, Hearts of Stone and Blood and Wine. One tracker per build.</p>
+
+    <div class="section">Builds</div>
+
+    <a class="card" href="./vesemir-7.html">
+      <div class="tag">Alchemy / Signs</div>
+      <h2>Vesemir-7</h2>
+      <p>Euphoria path on Blood and Broken Bones, targeting the Witcher ending for Ciri. Skill allocation, decision log and zone progress.</p>
+    </a>
+
+    <footer>hosted on github pages</footer>
+  </div>
+</body>
+</html>
