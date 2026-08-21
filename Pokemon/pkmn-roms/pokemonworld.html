@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#12141a">
+<title>Pokémon World — ROM Notes</title>
+<style>
+  :root{--void:#12141a;--panel:#1e222c;--line:#2b303c;--ink:#e8e9ee;--ink-dim:#9aa0b0;
+    --accent:#e2603f;--good:#5ecb8f;--warn:#d9a441;
+    --mono:'JetBrains Mono','SF Mono','Courier New',monospace;}
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--void);color:var(--ink);min-height:100vh;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    padding:calc(40px + env(safe-area-inset-top)) 20px 60px;}
+  .wrap{max-width:720px;margin:0 auto;}
+  a.back{display:inline-block;font-family:var(--mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--ink-dim);text-decoration:none;margin-bottom:22px;}
+  a.back:hover,a.back:focus-visible{color:var(--accent);}
+  .eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;
+    font-size:11px;color:var(--accent);margin-bottom:10px;}
+  h1{font-family:Georgia,serif;font-size:clamp(28px,6vw,40px);margin:0 0 8px;}
+  p.sub{color:var(--ink-dim);font-size:15px;line-height:1.65;margin:0 0 14px;}
+  .section{font-family:var(--mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:.16em;color:var(--ink-dim);margin:40px 0 12px;
+    padding-top:16px;border-top:1px solid var(--line);}
+  .section:first-of-type{border-top:none;padding-top:0;}
+  h2{font-family:Georgia,serif;font-size:22px;margin:0 0 10px;}
+  h3{font-family:Georgia,serif;font-size:17px;margin:24px 0 8px;color:var(--ink);}
+  p{font-size:14.5px;line-height:1.7;color:var(--ink);margin:0 0 14px;}
+  p.note{color:var(--ink-dim);font-size:13.5px;}
+  ul{margin:0 0 14px;padding-left:20px;}
+  li{font-size:14.5px;line-height:1.7;margin-bottom:7px;}
+  strong{color:#fff;font-weight:600;}
+  code{font-family:var(--mono);font-size:12.5px;background:#171b23;border:1px solid var(--line);
+    border-radius:4px;padding:1px 5px;color:#cbd2e0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:20px 22px;margin-bottom:16px;}
+  .card.flag{border-left:3px solid var(--accent);}
+  .card.warnbox{border-left:3px solid var(--warn);}
+  .card h3{margin-top:0;}
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;}
+  table{border-collapse:collapse;width:100%;min-width:420px;font-size:13.5px;}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--ink-dim);font-weight:400;white-space:nowrap;}
+  td:first-child{white-space:nowrap;color:#fff;}
+  tr:last-child td{border-bottom:none;}
+  .pill{display:inline-block;font-family:var(--mono);font-size:10px;text-transform:uppercase;
+    letter-spacing:.1em;padding:2px 8px;border-radius:20px;border:1px solid var(--line);
+    color:var(--ink-dim);}
+  .pill.mine{border-color:var(--accent);color:var(--accent);}
+  .pill.ok{border-color:var(--good);color:var(--good);}
+  .pill.off{border-color:var(--warn);color:var(--warn);}
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../../">&larr; All trackers</a>
+
+  <div class="eyebrow">GBA ROM &middot; pokemonworld.gba</div>
+  <h1>Pokémon World</h1>
+  <p class="sub">Kanto, Johto and Hoenn on one cartridge. Three complete campaigns sharing one
+  PC, one bag and one National Dex, joined by a central transit hub. This page covers what is
+  different about <em>this</em> build, not how to play Pokémon.</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>Base</th><td>pokeemerald-expansion 1.16.2, via <code>evilchinesefood/PKMN-World</code></td></tr>
+      <tr><th>ROM</th><td><code>POKEMON WRLD</code> &middot; code <code>BPEE</code> &middot; 32 MB</td></tr>
+      <tr><th>Regions</th><td>Kanto, Johto, Hoenn &mdash; 24 badges total, 1,193 maps</td></tr>
+      <tr><th>Roster</th><td>Generations 1&ndash;3, family trees intact &middot; 417 dex species</td></tr>
+      <tr><th>Multiplayer</th><td>None. Every link feature is compiled out</td></tr>
+    </table>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="section">The shape of it</div>
+  <h2>Three campaigns, one hub</h2>
+
+  <p>A new game runs a single Oak intro (gender, name, outfit, and a one-time difficulty
+  choice) and drops you in the <strong>World Transit hub</strong>, an Indigo-Plateau-styled
+  terminal. Four staffed gates lead to Kanto, Johto, Hoenn and the Battle Frontier. Each region
+  then plays its own canonical opening, including a choice of its three starters.</p>
+
+  <p>The hub also holds a nurse, a storage PC, a mart carrying twelve ball types, and a World
+  Tour board reading your running badge total out of 24.</p>
+
+  <h3>Getting around</h3>
+  <ul>
+    <li><strong>Hub gates</strong> box your current party to the shared PC so each campaign
+      starts fresh. Nothing is lost, and the crossing is refused up front if the boxes can't
+      take the whole team rather than half-boxing you.</li>
+    <li><strong>The HUB PASS</strong> key item warps you back to the hub from the bag. One-way,
+      so you re-enter through the gates. Every gate attendant force-gives it before letting you
+      cross, so you can't strand yourself.</li>
+    <li><strong>Each region has an in-world access point</strong> the hub returns you to on
+      later visits: the Goldenrod Magnet Train, Vermilion City, and the Slateport harbor.</li>
+  </ul>
+
+  <div class="card flag">
+    <h3>Johto &rarr; Kanto is the exception <span class="pill mine">changed here</span></h3>
+    <p>The sea crossing is the one route that isn't a hub gate. Elm's S.S. Ticket sends the new
+    Johto Champion out of Olivine harbor; you disembark at Vermilion City port with
+    <strong>your party still with you</strong>. HG/SS treats the two regions as one journey.</p>
+    <p>Upstream, badges still reset at the shore, so a level-45 team arrived in Kanto counting as
+    zero badges: disobedient, and unable to use Cut. <strong>In this build badges count across
+    all regions</strong>, so obedience, level caps, catch rates and HM access carry over. Kanto's
+    gyms sit at Lv&nbsp;58&ndash;65 against Clair's 42&ndash;45, so the content always assumed
+    continuity even when the plumbing didn't.</p>
+    <p class="note">Practical effect: play Johto first, then sail. The ticket gating enforces
+    this anyway.</p>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="section">Difficulty</div>
+  <h2>Normal and Hard</h2>
+
+  <p><strong>Hard Mode</strong> means Set-style battles, no bag items in trainer battles, and
+  badge-based level caps. <strong>Normal removes all three</strong>, including the level caps
+  entirely.</p>
+
+  <div class="card flag">
+    <p>Upstream, this was asked once during Oak's speech and then locked to that save forever.
+    <strong>This build moves it into the Options menu as <code>DIFFICULTY</code></strong>, so you
+    can switch whenever you like. <span class="pill mine">changed here</span></p>
+  </div>
+
+  <p>Difficulty is otherwise contained per region: being Hoenn Champion doesn't harden Kanto's
+  first-run gyms.</p>
+
+  <!-- ================================================================= -->
+  <div class="section">Carried across</div>
+  <h2>Shared vs per-region</h2>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>Shared</th><td>Money, bag, TMs/HMs, PC boxes, one National Pokédex. Key items
+        deduplicate &mdash; you never get a second Exp. Share.</td></tr>
+      <tr><th>Per region</th><td>Story flags, trainer-defeat flags, and each region's own badge
+        bank. The trainer card has three badge pages; L and R flip between them.</td></tr>
+      <tr><th>Badge effects</th><td><span class="pill mine">changed here</span> Obedience, caps,
+        catch rate and HM access now read your <em>total</em> across all regions rather than
+        resetting at each border.</td></tr>
+    </table>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="section">The roster</div>
+  <h2>Gen 1&ndash;3, families intact</h2>
+
+  <p>Every wild, gift and trainer Pokémon comes from the first three generations. Those lines
+  <strong>keep their later-gen evolutions</strong> &mdash; Togekiss, Electivire, Weavile, Sylveon
+  and the rest &mdash; with the cross-gen evolution items sold in-world, and they count toward
+  the National Dex.</p>
+
+  <p>This is enforced rather than a style guide: all 339 Gen 4&ndash;9 families are compiled out,
+  and a validator fails the build if any obtainable content references one.</p>
+
+  <div class="card">
+    <h3>Everything is catchable solo <span class="pill mine">verified here</span></h3>
+    <p>No trading, no distribution events, one save file. All <strong>417 of 417</strong> dex
+    species have a reachable acquisition path, checked on every build.</p>
+    <ul>
+      <li><strong>Trade evolutions</strong> work offline via a Linking Cord.</li>
+      <li><strong>Event mythicals</strong> are handed out in-world &mdash; the Old Sea Map,
+        Aurora Ticket, Mystic Ticket, Eon Ticket and GS Ball all come from scripts, unlocking
+        Mew, Deoxys, Lugia, Ho-Oh, Latias, Latios and Celebi.</li>
+      <li><strong>Jirachi</strong> was the one species with no home anywhere. It has one now.</li>
+    </ul>
+  </div>
+
+  <h3>Switched off</h3>
+  <div class="tablewrap">
+    <table>
+      <tr><th>Off</th><td>All Gen 4&ndash;9 families &middot; Dynamax, Gigantamax, Terastallization</td></tr>
+      <tr><th>Off</th><td>Every link feature: Mystery Gift, Union Room, record mixing, Cable Club, wireless</td></tr>
+      <tr><th>Off</th><td>NPC followers &middot; XY berry mechanics &middot; Defog and Rock Climb as field moves</td></tr>
+    </table>
+  </div>
+  <p class="note">Defog and Rock Climb are confirmed not required by any map, so nothing is
+  gated behind them.</p>
+
+  <!-- ================================================================= -->
+  <div class="section">After the credits</div>
+  <h2>Post-game modes</h2>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>Gym rematches</th><td>All 24 leaders, unlimited, once you're that region's
+        Champion. HARD teams at Lv&nbsp;58&ndash;65 with held items and real movesets.</td></tr>
+      <tr><th>League rematches</th><td>Hoenn 62&ndash;68 &middot; Johto 70&ndash;78 (Lance's
+        Dragonite at 78) &middot; Kanto E4 70&ndash;76 &middot; GARY 77&ndash;80</td></tr>
+      <tr><th>Battle Net</th><td>Unlocks the hub's upstairs floor and the Mega economy &mdash;
+        Mega Ring plus a free stone for your starter's line.</td></tr>
+      <tr><th>World Championship</th><td>Champion of all three regions opens a 15-trainer Battle
+        Dome bracket of cross-region champions, with Red in the final slot.</td></tr>
+      <tr><th>Team Rocket</th><td>Jessie &amp; James ambush you five times across all three
+        regions, each a deliberately unfair 1-vs-2 double.</td></tr>
+      <tr><th>Battle Frontier</th><td>Shared post-game facility, reachable from the hub once
+        you've cleared any one league.</td></tr>
+    </table>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="section">This build</div>
+  <h2>Changes on top of upstream</h2>
+
+  <div class="card flag">
+    <h3>Catching is easier</h3>
+    <p><code>CATCH RATE</code> in Options now reads <strong>1x / 1.5x / 2x / 6x</strong>. The
+    unused 0.5x slot was repurposed rather than widening the save format, so the 6x tier costs
+    nothing.</p>
+    <p>At 6x, a Lv&nbsp;70 legendary at 1&nbsp;HP and asleep in an Ultra Ball goes from roughly
+    4.4% to <strong>28%</strong> per throw &mdash; about 4 balls instead of 23. Mid-tier catching
+    stops being a mechanic. <code>EXP RATE</code> keeps its own separate 0.5x.</p>
+  </div>
+
+  <div class="card flag">
+    <h3>Jirachi has an encounter</h3>
+    <p>A bonus-disc exclusive in retail, and absent from upstream entirely &mdash; it appeared
+    only in flavour text. It now stands in <strong>Meteor Falls B1F&nbsp;2R</strong> at Lv&nbsp;40,
+    on the far ledge across the chamber's water, and appears once you're <strong>Hoenn
+    Champion</strong>. Bring Surf. One-shot: it's gone once caught.</p>
+  </div>
+
+  <div class="card flag">
+    <h3>Two Pokémon that were uncatchable</h3>
+    <p><strong>Roselia and Surskit had zero wild encounter entries anywhere</strong>, which
+    silently took Roserade, Budew and Masquerain with them &mdash; five species you could never
+    have obtained in a build whose whole premise is completeness.</p>
+    <p>Both are back on their RSE-native routes: Roselia on Routes 117, 119 and 120; Surskit on
+    102 and 117. Each took a slot held by a species that appears on many other tables, so nothing
+    else lost its only home.</p>
+  </div>
+
+  <div class="card flag">
+    <h3>The Kanto handoff, and the difficulty toggle</h3>
+    <p>Covered above &mdash; badges now count across regions, and Hard Mode moved into Options.</p>
+  </div>
+
+  <div class="card flag">
+    <h3>Tin Tower has a roof again</h3>
+    <p>Upstream, Tin Tower cannot be climbed. Walking from the front door reaches 1F, 2F and
+    eighteen tiles of 3F, then stops &mdash; Ho-Oh, the five Kimono Girls and every item above
+    were unreachable.</p>
+    <p>The cause is structural: floors <strong>3F through 6F each have every walkable region
+    holding exactly one staircase</strong>, so you arrive and the only warp in your region is the
+    one under your feet, which sends you back. Bad collision, missing stairs and wrong warp
+    indices were each ruled out.</p>
+    <p>Since 7F, 8F and 9F are sound, <strong>2F's up-staircase now leads to 7F</strong>. Floors
+    3F&ndash;6F stay unreachable exactly as they already were, so nothing is lost, and the roof,
+    Ho-Oh, the Kimono Girls, Max Revive, Full Restore, Max Elixir and the Big Nugget are all
+    reachable again.</p>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="section">Caveats</div>
+  <h2>Known issues</h2>
+
+  <div class="card warnbox">
+    <h3>Tin Tower 3F&ndash;6F are still dead</h3>
+    <p>The staircase reroute is a stopgap, not a repair. Those four floors remain unreachable,
+    and with them a Full Heal, two Max Potions, an Escape Rope, an Ultra Ball, a Rare Candy and a
+    Carbos. Properly fixing it means redrawing four floors. Nothing unique is behind them &mdash;
+    the wild tables there are Gastly and Rattata.</p>
+  </div>
+
+  <div class="card warnbox">
+    <h3>Ho-Oh has a second source anyway</h3>
+    <p>Independent of Tin Tower, Ho-Oh and Lugia are both reachable at Navel Rock via the Mystic
+    Ticket, so the dex was never at risk.</p>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="section">Provenance</div>
+  <h2>Verification</h2>
+
+  <p>Built from source; no base ROM required. Every change above is checked automatically.</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>Battle engine</th><td><span class="pill ok">4,880 passed</span> unchanged from baseline</td></tr>
+      <tr><th>Emulator suites</th><td><span class="pill ok">541 / 544</span> assertions, 22 of 24 suites green</td></tr>
+      <tr><th>Dex completeness</th><td><span class="pill ok">417 / 417</span> enforced on every build</td></tr>
+      <tr><th>Remaining reds</th><td><span class="pill off">2 suites</span> one pre-existing and flaky by its own admission, one needing a save that can't be committed. Neither from any change here.</td></tr>
+    </table>
+  </div>
+
+  <footer>
+    Built on PKMN-World by evilchinesefood, itself on pokeemerald-expansion by RH-Hideout and
+    pokeemerald by pret.<br>
+    Non-commercial fan project. Not affiliated with Nintendo, Game Freak or The Pokémon Company.
+    No ROMs distributed &mdash; built from source.
+  </footer>
+</div>
+</body>
+</html>
