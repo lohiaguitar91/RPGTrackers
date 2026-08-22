@@ -96,6 +96,17 @@
   .row.legendary .cat{border-color:#7aa2f7;color:#7aa2f7;}
   .row.roamer .cat{border-color:#bb8fce;color:#bb8fce;}
   .row.starter .cat{border-color:var(--good);color:var(--good);}
+  .tmrow{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;padding:12px 2px;
+    border-bottom:1px solid var(--line);}
+  .tmrow .id{font-family:var(--mono);font-size:11.5px;color:var(--accent);
+    align-self:start;padding-top:2px;min-width:46px;}
+  .tmrow.ishm .id{color:#7aa2f7;}
+  .tmrow .mv{font-weight:600;color:#fff;font-size:14.5px;}
+  .tmrow .src{grid-column:2;font-size:13px;color:var(--ink-dim);line-height:1.6;}
+  .tmrow .src span{display:inline-block;margin-right:12px;}
+  .tmrow .src i{font-style:normal;font-family:var(--mono);font-size:9.5px;
+    text-transform:uppercase;letter-spacing:.08em;color:#7b8394;margin-right:5px;}
+  .tmrow .tmnote{grid-column:2;font-size:12.5px;color:#8b93a5;font-style:italic;line-height:1.5;}
   .empty{padding:26px 2px;color:var(--ink-dim);font-size:14px;}
   footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
     font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);line-height:1.8;}
@@ -125,6 +136,7 @@
   <nav class="tabs" role="tablist">
     <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="true">Guide</button>
     <button role="tab" id="tab-dex" aria-controls="panel-dex" aria-selected="false">Where to find</button>
+    <button role="tab" id="tab-tm" aria-controls="panel-tm" aria-selected="false">TMs &amp; HMs</button>
   </nav>
 
   <div class="panel" id="panel-guide" role="tabpanel" aria-labelledby="tab-guide">
@@ -398,7 +410,8 @@
           o.setAttribute('aria-selected', sel ? 'true' : 'false');
           document.getElementById(o.getAttribute('aria-controls')).hidden = !sel;
         });
-        if (t.id === 'tab-dex'){ var s = document.querySelector('input.search'); if (s) s.focus(); }
+        var pane = document.getElementById(t.getAttribute('aria-controls'));
+        var s = pane && pane.querySelector('input.search'); if (s) s.focus();
       });
     });
 
@@ -449,6 +462,82 @@
   })();
   </script>
 
+
+  <div class="panel" id="panel-tm" role="tabpanel" aria-labelledby="tab-tm" hidden>
+    <div class="section">TMs &amp; HMs</div>
+    <h2>All 50 TMs and 8 HMs</h2>
+    <p>Every TM and HM in the build, with everywhere it can be obtained. Read straight out of the
+    map data and scripts, so a TM that shows two places really does appear twice &mdash; usually
+    once per region, since three campaigns share one bag.</p>
+    <p class="note"><strong>TMs are reusable here</strong>, so one copy is enough. HMs are
+    forgettable like any other move.</p>
+
+    <div class="controls">
+      <input class="search tm-search" type="search" placeholder="Search a move, a route, a gym&hellip;" aria-label="Search TMs">
+      <div class="chips tm-chips">
+        <button data-src="all" aria-pressed="true">All</button>
+        <button data-src="Given" aria-pressed="false">Given</button>
+        <button data-src="Item ball" aria-pressed="false">Item ball</button>
+        <button data-src="For sale" aria-pressed="false">For sale</button>
+        <button data-src="Hidden" aria-pressed="false">Hidden</button>
+      </div>
+    </div>
+
+    <div class="count tm-count"></div>
+    <div class="tmlist"></div>
+  </div><!-- /panel-tm -->
+
+  <script>
+  (function(){
+    var TM = [{"id": "TM01", "mv": "Focus Punch", "hm": false, "s": [{"k": "Item ball", "p": "Route 115"}, {"k": "Given", "p": "Cianwood Gym"}], "note": ""}, {"id": "TM02", "mv": "Dragon Claw", "hm": false, "s": [{"k": "Item ball", "p": "Meteor Falls B1F 2R"}, {"k": "Given", "p": "Blackthorn City Gym"}, {"k": "Given", "p": "Dragons Den Cavern"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM03", "mv": "Water Pulse", "hm": false, "s": [{"k": "Given", "p": "Sootopolis City Gym 1F"}], "note": ""}, {"id": "TM04", "mv": "Calm Mind", "hm": false, "s": [{"k": "Given", "p": "Mossdeep City Gym"}, {"k": "Item ball", "p": "Goldenrod City Underground Storage"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM05", "mv": "Roar", "hm": false, "s": [{"k": "Given", "p": "Route 32"}, {"k": "Given", "p": "Route 114"}], "note": ""}, {"id": "TM06", "mv": "Toxic", "hm": false, "s": [{"k": "Item ball", "p": "Fiery Path"}], "note": ""}, {"id": "TM07", "mv": "Hail", "hm": false, "s": [{"k": "Item ball", "p": "Shoal Cave Low Tide Ice Room"}, {"k": "Given", "p": "Mahogany Town Gym"}], "note": ""}, {"id": "TM08", "mv": "Bulk Up", "hm": false, "s": [{"k": "Item ball", "p": "Olivine City Lighthouse"}, {"k": "Given", "p": "Dewford Town Gym"}], "note": ""}, {"id": "TM09", "mv": "Bullet Seed", "hm": false, "s": [{"k": "Given", "p": "Azalea Town Gym"}, {"k": "Given", "p": "Route 104"}], "note": ""}, {"id": "TM10", "mv": "Hidden Power", "hm": false, "s": [{"k": "Given", "p": "Lake of Rage House 1"}, {"k": "Given", "p": "Fortree City House 2"}, {"k": "For sale", "p": "Slateport City"}, {"k": "For sale", "p": "Safari Zone Gate"}], "note": ""}, {"id": "TM11", "mv": "Sunny Day", "hm": false, "s": [{"k": "Item ball", "p": "Scorched Slab"}, {"k": "Item ball", "p": "Ilex Forest"}], "note": ""}, {"id": "TM12", "mv": "Taunt", "hm": false, "s": [{"k": "Item ball", "p": "Burned Tower B1F"}, {"k": "Given", "p": "Route 110 Trick House Entrance"}, {"k": "Given", "p": "Route 110 Trick House End"}], "note": ""}, {"id": "TM13", "mv": "Ice Beam", "hm": false, "s": [{"k": "Item ball", "p": "Abandoned Ship Room B1F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM14", "mv": "Blizzard", "hm": false, "s": [{"k": "Given", "p": "Ice Path B3F"}, {"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM15", "mv": "Hyper Beam", "hm": false, "s": [{"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM16", "mv": "Light Screen", "hm": false, "s": [{"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM17", "mv": "Protect", "hm": false, "s": [{"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM18", "mv": "Rain Dance", "hm": false, "s": [{"k": "Item ball", "p": "Abandoned Ship Hidden Floor Rooms"}, {"k": "Given", "p": "Slowpoke Well B2F"}], "note": ""}, {"id": "TM19", "mv": "Giga Drain", "hm": false, "s": [{"k": "Given", "p": "Route 123"}], "note": ""}, {"id": "TM20", "mv": "Safeguard", "hm": false, "s": [{"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM21", "mv": "Frustration", "hm": false, "s": [{"k": "Given", "p": "Goldenrod City Department Store 5F"}, {"k": "Given", "p": "Pacifidlog Town House 2"}], "note": ""}, {"id": "TM22", "mv": "Solar Beam", "hm": false, "s": [{"k": "Item ball", "p": "Safari Zone Northwest"}, {"k": "Item ball", "p": "Route 27"}], "note": ""}, {"id": "TM23", "mv": "Iron Tail", "hm": false, "s": [{"k": "Item ball", "p": "Meteor Falls 1F 1R"}, {"k": "Given", "p": "Olivine City Gym"}], "note": ""}, {"id": "TM24", "mv": "Thunderbolt", "hm": false, "s": [{"k": "Given", "p": "Mauville City"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM25", "mv": "Thunder", "hm": false, "s": [{"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM26", "mv": "Earthquake", "hm": false, "s": [{"k": "Item ball", "p": "Seafloor Cavern Room 9"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM27", "mv": "Return", "hm": false, "s": [{"k": "Given", "p": "Fallarbor Town Cozmos House"}, {"k": "Given", "p": "Goldenrod City Department Store 5F"}, {"k": "Given", "p": "Pacifidlog Town House 2"}], "note": ""}, {"id": "TM28", "mv": "Dig", "hm": false, "s": [{"k": "Item ball", "p": "National Park Normal"}, {"k": "Given", "p": "Route 114 Fossil Maniacs House"}], "note": ""}, {"id": "TM29", "mv": "Psychic", "hm": false, "s": [{"k": "Item ball", "p": "Victory Road B1F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM30", "mv": "Shadow Ball", "hm": false, "s": [{"k": "Item ball", "p": "Mt Pyre 6F"}, {"k": "Given", "p": "Ecruteak City Gym"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM31", "mv": "Brick Break", "hm": false, "s": [{"k": "Item ball", "p": "Route 39"}, {"k": "Given", "p": "Sootopolis City House 1"}], "note": ""}, {"id": "TM32", "mv": "Double Team", "hm": false, "s": [{"k": "Hidden", "p": "Route 113"}, {"k": "Given", "p": "Violet City Gym"}], "note": ""}, {"id": "TM33", "mv": "Reflect", "hm": false, "s": [{"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM34", "mv": "Shock Wave", "hm": false, "s": [{"k": "Item ball", "p": "Olivine City"}, {"k": "Given", "p": "Mauville City Gym"}], "note": ""}, {"id": "TM35", "mv": "Flamethrower", "hm": false, "s": [{"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM36", "mv": "Sludge Bomb", "hm": false, "s": [{"k": "Given", "p": "Gate Route 43"}, {"k": "Given", "p": "Dewford Town Hall"}], "note": ""}, {"id": "TM37", "mv": "Sandstorm", "hm": false, "s": [{"k": "Item ball", "p": "Route 111"}, {"k": "Given", "p": "Route 27 House"}], "note": ""}, {"id": "TM38", "mv": "Fire Blast", "hm": false, "s": [{"k": "For sale", "p": "Lilycove City Department Store 4F"}, {"k": "For sale", "p": "Region Hub"}], "note": ""}, {"id": "TM39", "mv": "Rock Tomb", "hm": false, "s": [{"k": "Given", "p": "Rustboro City Gym"}, {"k": "Item ball", "p": "Route 35"}], "note": ""}, {"id": "TM40", "mv": "Aerial Ace", "hm": false, "s": [{"k": "Given", "p": "Fortree City Gym"}], "note": ""}, {"id": "TM41", "mv": "Torment", "hm": false, "s": [{"k": "Given", "p": "Route 31"}, {"k": "Given", "p": "Slateport City Battle Tent Lobby"}], "note": ""}, {"id": "TM42", "mv": "Facade", "hm": false, "s": [{"k": "Given", "p": "Petalburg City Gym"}], "note": ""}, {"id": "TM43", "mv": "Secret Power", "hm": false, "s": [{"k": "Given", "p": "Script: secret_power_tm"}, {"k": "Item ball", "p": "Union Cave B1F"}, {"k": "For sale", "p": "Slateport City"}, {"k": "For sale", "p": "Safari Zone Gate"}], "note": ""}, {"id": "TM44", "mv": "Rest", "hm": false, "s": [{"k": "Given", "p": "Lilycove City House 2"}], "note": ""}, {"id": "TM45", "mv": "Attract", "hm": false, "s": [{"k": "Given", "p": "Verdanturf Town Battle Tent Lobby"}, {"k": "Given", "p": "Goldenrod City Gym"}], "note": ""}, {"id": "TM46", "mv": "Thief", "hm": false, "s": [{"k": "Given", "p": "Slateport City Oceanic Museum 1F"}, {"k": "Item ball", "p": "Mahogany Hideout B2F"}], "note": ""}, {"id": "TM47", "mv": "Steel Wing", "hm": false, "s": [{"k": "Given", "p": "Granite Cave Stevens Room"}, {"k": "Given", "p": "Route 28 House"}], "note": ""}, {"id": "TM48", "mv": "Skill Swap", "hm": false, "s": [{"k": "Item ball", "p": "Mt Pyre Exterior"}, {"k": "Given", "p": "Goldenrod City Radio Tower 3F"}], "note": ""}, {"id": "TM49", "mv": "Snatch", "hm": false, "s": [{"k": "Given", "p": "SSTidal Rooms"}, {"k": "Given", "p": "Route 39 Farm House"}], "note": ""}, {"id": "TM50", "mv": "Overheat", "hm": false, "s": [{"k": "Given", "p": "Lavaridge Town Gym 1F"}], "note": ""}, {"id": "HM01", "mv": "Cut", "hm": true, "s": [{"k": "Given", "p": "Rustboro City Cutters House"}, {"k": "Given", "p": "Ilex Forest"}], "note": ""}, {"id": "HM02", "mv": "Fly", "hm": true, "s": [{"k": "Given", "p": "Cianwood City"}, {"k": "Given", "p": "Route 119"}], "note": ""}, {"id": "HM03", "mv": "Surf", "hm": true, "s": [{"k": "Given", "p": "Petalburg City Wallys House"}, {"k": "Given", "p": "Ecruteak City Theater"}], "note": ""}, {"id": "HM04", "mv": "Strength", "hm": true, "s": [{"k": "Given", "p": "Rusturf Tunnel"}, {"k": "Given", "p": "Olivine City Cafe"}], "note": ""}, {"id": "HM05", "mv": "Flash", "hm": true, "s": [{"k": "Given", "p": "Sprout Tower 3F"}, {"k": "Given", "p": "Granite Cave 1F"}], "note": ""}, {"id": "HM06", "mv": "Rock Smash", "hm": true, "s": [{"k": "Given", "p": "Route 36"}, {"k": "Given", "p": "Mauville City House 1"}], "note": ""}, {"id": "HM07", "mv": "Waterfall", "hm": true, "s": [{"k": "Item ball", "p": "Ice Path 1F"}, {"k": "Given", "p": "Sootopolis City"}], "note": ""}, {"id": "HM08", "mv": "Dive", "hm": true, "s": [{"k": "Given", "p": "Mossdeep City Stevens House"}, {"k": "Item ball", "p": "Mossdeep City Stevens House"}, {"k": "Given", "p": "Mahogany Hideout B2F"}], "note": "Lance calls it Whirlpool (a Johto-compat alias); the item is HM08 Dive."}];
+    var box   = document.querySelector('.tmlist'),
+        count = document.querySelector('.tm-count'),
+        input = document.querySelector('.tm-search'),
+        chips = [].slice.call(document.querySelectorAll('.tm-chips button')),
+        src   = 'all';
+
+    function esc(s){
+      return String(s).replace(/[&<>]/g, function(c){
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c];
+      });
+    }
+
+    function render(){
+      var q = input.value.trim().toLowerCase();
+      var hits = TM.filter(function(r){
+        if (src !== 'all' && !r.s.some(function(x){ return x.k === src; })) return false;
+        if (!q) return true;
+        var hay = (r.id + ' ' + r.mv + ' ' + r.note + ' ' +
+                   r.s.map(function(x){ return x.k + ' ' + x.p; }).join(' ')).toLowerCase();
+        return hay.indexOf(q) > -1;
+      });
+      count.textContent = hits.length + (hits.length === 1 ? ' entry' : ' entries');
+      if (!hits.length){ box.innerHTML = '<div class="empty">Nothing matches that.</div>'; return; }
+      box.innerHTML = hits.map(function(r){
+        var srcs = r.s.filter(function(x){ return src === 'all' || x.k === src; })
+                      .map(function(x){
+                        return '<span><i>' + esc(x.k) + '</i>' + esc(x.p) + '</span>';
+                      }).join('');
+        return '<div class="tmrow' + (r.hm ? ' ishm' : '') + '">' +
+               '<div class="id">' + esc(r.id) + '</div>' +
+               '<div class="mv">' + esc(r.mv) + '</div>' +
+               '<div class="src">' + srcs + '</div>' +
+               (r.note ? '<div class="tmnote">' + esc(r.note) + '</div>' : '') +
+               '</div>';
+      }).join('');
+    }
+
+    chips.forEach(function(c){
+      c.addEventListener('click', function(){
+        src = c.getAttribute('data-src');
+        chips.forEach(function(o){ o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+        render();
+      });
+    });
+    input.addEventListener('input', render);
+    render();
+  })();
+  </script>
 
   <footer>
     Built on PKMN-World by evilchinesefood, itself on pokeemerald-expansion by RH-Hideout and
