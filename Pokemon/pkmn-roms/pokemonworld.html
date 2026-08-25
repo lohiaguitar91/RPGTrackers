@@ -56,7 +56,7 @@
   .pill.off{border-color:var(--warn);color:var(--warn);}
 
   /* --- tabs --- */
-  nav.tabs{display:flex;gap:6px;margin:0 0 30px;border-bottom:1px solid var(--line);}
+  nav.tabs{display:flex;flex-wrap:wrap;gap:6px 4px;margin:0 0 30px;border-bottom:1px solid var(--line);}
   nav.tabs button{appearance:none;background:none;border:0;border-bottom:2px solid transparent;
     margin-bottom:-1px;padding:10px 16px;cursor:pointer;color:var(--ink-dim);
     font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.14em;
@@ -134,12 +134,15 @@
 
 
   <nav class="tabs" role="tablist">
-    <button role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="true">Guide</button>
+    <button role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true">Overview</button>
+    <button role="tab" id="tab-roster" aria-controls="panel-roster" aria-selected="false">Roster &amp; QoL</button>
+    <button role="tab" id="tab-postgame" aria-controls="panel-postgame" aria-selected="false">Post-game</button>
+    <button role="tab" id="tab-changes" aria-controls="panel-changes" aria-selected="false">Changes</button>
     <button role="tab" id="tab-dex" aria-controls="panel-dex" aria-selected="false">Where to find</button>
     <button role="tab" id="tab-tm" aria-controls="panel-tm" aria-selected="false">TMs &amp; HMs</button>
   </nav>
 
-  <div class="panel" id="panel-guide" role="tabpanel" aria-labelledby="tab-guide">
+  <div class="panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
   <!-- ================================================================= -->
   <div class="section">The shape of it</div>
   <h2>Three campaigns, one hub</h2>
@@ -211,6 +214,9 @@
     </table>
   </div>
 
+  </div><!-- /panel-overview -->
+
+  <div class="panel" id="panel-roster" role="tabpanel" aria-labelledby="tab-roster" hidden>
   <!-- ================================================================= -->
   <div class="section">The roster</div>
   <h2>Gen 1&ndash;3, families intact</h2>
@@ -307,6 +313,9 @@
     catches in place.</p>
   </div>
 
+  </div><!-- /panel-roster -->
+
+  <div class="panel" id="panel-postgame" role="tabpanel" aria-labelledby="tab-postgame" hidden>
   <!-- ================================================================= -->
   <div class="section">After the credits</div>
   <h2>Post-game modes</h2>
@@ -328,6 +337,9 @@
     </table>
   </div>
 
+  </div><!-- /panel-postgame -->
+
+  <div class="panel" id="panel-changes" role="tabpanel" aria-labelledby="tab-changes" hidden>
   <!-- ================================================================= -->
   <div class="section">This build</div>
   <h2>Changes on top of upstream</h2>
@@ -413,7 +425,7 @@
     </table>
   </div>
 
-  </div><!-- /panel-guide -->
+  </div><!-- /panel-changes -->
 
   <div class="panel" id="panel-dex" role="tabpanel" aria-labelledby="tab-dex" hidden>
     <div class="section">Where to find</div>
