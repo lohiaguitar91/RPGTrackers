@@ -248,6 +248,66 @@
   gated behind them.</p>
 
   <!-- ================================================================= -->
+  <div class="section">Quality of life</div>
+  <h2>Shiny hunting, DexNav, and skipping HM chores</h2>
+
+  <div class="card">
+    <h3>HMs without teaching them</h3>
+    <p>A party Pok&eacute;mon that <em>could learn</em> an HM performs its field move &mdash; Cut,
+    Flash, whatever &mdash; without ever having it taught into a move slot, as long as you have
+    the region's badge for it. Owning the matching tool item unlocks the field move outright even
+    without a compatible Pok&eacute;mon. Either way it's a menu convenience, not a real learned
+    move &mdash; if a compatible mon looks like it "already knows" an HM you never taught, this is
+    why. HMs are also forgettable like any other move once actually learned for real.</p>
+  </div>
+
+  <div class="card">
+    <h3>Shiny odds</h3>
+    <p>Base rate is <strong>1 in 128</strong> per encounter &mdash; already 64&times; the vanilla
+    1/8192, with nothing active. On a miss, a reroll draws a fresh independent attempt at the same
+    odds, so odds compound as <code>1 &minus; (127/128)^(1 + rerolls)</code> rather than adding
+    flat percentage points.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Source</th><th>Rerolls</th></tr>
+        <tr><td>Shiny Charm</td><td>+2, flat</td></tr>
+        <tr><td>Lure active (not Repel)</td><td>+1, flat</td></tr>
+        <tr><td>Chain fishing streak</td><td>+2 per streak point, caps at 20 (so +40 max)</td></tr>
+        <tr><td>DexNav chain</td><td>+5 at chain &ge;50, +10 at &ge;100, plus a flat 4% shot at
+          +4 regardless of chain</td></tr>
+      </table>
+    </div>
+    <p class="note">Purely cosmetic &mdash; no stat, IV or catch-rate difference from a normal
+    encounter.</p>
+  </div>
+
+  <div class="card">
+    <h3>Shiny Charm source</h3>
+    <p>The hub's <strong>Charm Curator</strong> hands out a badge-count ladder (your running total
+    across all three regions, out of 24): 4 badges &rarr; Catching Charm, 8 &rarr; Exp. Charm,
+    12 &rarr; Oval Charm, <strong>16 &rarr; Shiny Charm</strong>, 24 &rarr; an EV/IV Changer key
+    item. It's a guaranteed pickup at that badge count, not a drop.</p>
+  </div>
+
+  <div class="card">
+    <h3>DexNav</h3>
+    <p>Granted with each region's Pok&eacute;dex; the hidden-Pok&eacute;mon detector itself
+    unlocks with your first regional championship. Two separate trackers: a per-species
+    <strong>search level</strong> that raises encounter quality/rarity the more you DexNav that
+    species, and a <strong>chain</strong> (caps at 100) built by chaining hidden encounters back
+    to back, which is what feeds the shiny-reroll bonuses above. Hidden encounters are authored
+    for nearly every land route in all three regions.</p>
+  </div>
+
+  <div class="card">
+    <h3>Chain fishing</h3>
+    <p>Reeling in the same species back-to-back on a rod builds a streak, capped at 20, each point
+    worth +2 shiny rerolls. The streak resets to zero the moment you get "not even a nibble," a
+    fish "gets away," or you leave the fishing spot &mdash; so it has to be an unbroken run of
+    catches in place.</p>
+  </div>
+
+  <!-- ================================================================= -->
   <div class="section">After the credits</div>
   <h2>Post-game modes</h2>
 
