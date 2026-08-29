@@ -355,6 +355,16 @@
   </div>
 
   <div class="card flag">
+    <h3>Game Corner Pokémon now cost 1 coin</h3>
+    <p>Both prize rooms &mdash; Celadon (Kanto) and Goldenrod (Johto) &mdash; sold Abra through
+    Porygon for up to <strong>9,999 coins</strong>. Every Pokémon in both rooms is now
+    <strong>1 coin</strong>: Abra, Clefairy, Dratini/Wobbuffet, Scyther, Porygon.</p>
+    <p class="note">Pure script-data edit &mdash; a coin-price constant in a shop script, no flag,
+    var, species or item renumbering. Existing saves load unaffected; the new price just applies
+    next visit.</p>
+  </div>
+
+  <div class="card flag">
     <h3>Jirachi has an encounter</h3>
     <p>A bonus-disc exclusive in retail, and absent from upstream entirely &mdash; it appeared
     only in flavour text. It now stands in <strong>Meteor Falls B1F&nbsp;2R</strong> at Lv&nbsp;40,
@@ -423,6 +433,37 @@
       <tr><th>Dex completeness</th><td><span class="pill ok">417 / 417</span> enforced on every build</td></tr>
       <tr><th>Remaining reds</th><td><span class="pill off">2 suites</span> one pre-existing and flaky by its own admission, one needing a save that can't be committed. Neither from any change here.</td></tr>
     </table>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="section">Ideas, not done yet</div>
+  <h2>Other save-safe tweaks on the table</h2>
+
+  <p>Same category as the coin-price change above: a numeric constant or price sitting in a
+  script or config header, not a flag/var/species/item renumber, so any of these could be
+  changed without touching an existing save. Listed here as options &mdash; none of these are
+  applied.</p>
+
+  <div class="card">
+    <ul>
+      <li><strong>The rest of the Game Corner prices</strong> &mdash; the TM room (3,500&ndash;4,500
+        coins) and held-item room (800&ndash;1,600 coins) in Celadon, plus the money&rarr;coin buy
+        rate (flat 20&yen;/coin currently) and the 5,000-coin-per-visit purchase cap.</li>
+      <li><strong>Safari Zone</strong> &mdash; the &yen;500 "continue" fee, or how many Safari
+        Balls you start with.</li>
+      <li><strong>Wild encounter levels/rates</strong> on specific routes &mdash; per-slot level
+        or rarity edits, not a table restructure.</li>
+      <li><strong>Options-menu defaults</strong> &mdash; EXP RATE / CATCH RATE multiplier values,
+        or which one is selected by default.</li>
+      <li><strong>Trainer rematch levels or movesets</strong> &mdash; data-table edits per
+        trainer, same shape as the existing HARD-rematch tables.</li>
+      <li><strong>Named-gift Pokémon levels</strong> &mdash; e.g. the Eevee/Dratini gifts &mdash;
+        as long as the species itself isn't changing.</li>
+      <li><strong>Shiny odds</strong> &mdash; the base <code>SHINY_ODDS</code> constant, or the
+        reroll amounts from Shiny Charm / chain fishing / DexNav chaining.</li>
+      <li><strong>Charm Curator's badge thresholds</strong> &mdash; currently 4/8/12/16/24 for
+        Catching &rarr; Exp. &rarr; Oval &rarr; Shiny &rarr; EV/IV Changer.</li>
+    </ul>
   </div>
 
   </div><!-- /panel-changes -->
