@@ -355,6 +355,18 @@
   </div>
 
   <div class="card flag">
+    <h3>Seafoam Islands boulders actually fall through now</h3>
+    <p>Pushing a Strength boulder into a hole on 1F/B1F/B2F/B3F played the fall sound and removed
+    the boulder, but its counterpart never appeared on the floor below &mdash; the landing spot
+    was just empty. The engine reads which flag to clear from the boulder's own data field, and
+    all 8 fall-through boulders had that field pointing at nothing. Fixed at the data level, so
+    the 1F&rarr;B1F&rarr;B2F&rarr;B3F&rarr;B4F chain works as intended.</p>
+    <p class="note">Checked every other pushable boulder in the game (31 maps, all three
+    regions) &mdash; Seafoam is the only place using this mechanic, so nothing else was affected.
+    Save-compatible: no flag indices changed. Reported upstream as issue #2.</p>
+  </div>
+
+  <div class="card flag">
     <h3>Both Dojo Hitmons are claimable</h3>
     <p>The Saffron Dojo's two prize balls shared one flag &mdash; taking Hitmonlee or Hitmonchan
     permanently locked the other. Each ball now guards on its own flag, so you take
